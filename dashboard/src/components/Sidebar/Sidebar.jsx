@@ -10,6 +10,7 @@ import { IoNotifications } from "react-icons/io5";
 import { IoSettingsSharp } from "react-icons/io5";
 import { Link } from '@mui/material';
 import { useState } from 'react';
+import { FiLogOut } from "react-icons/fi";
 
 function Sidebar() {
 
@@ -154,67 +155,19 @@ const isOpenSubMenu = (index) =>{
                 </Button>
                 </Link>
             </li>
-            <li className='libar'>
-                <Link to="/">
-                <Button className={`btn w-100 ${activeTab===12 ? 'active' : ''}`} onClick={()=>isOpenSubMenu(12)} >
-                
-                    <span className="icon"><MdDashboard /></span>
-                    Dashboard
-                    <span className="arrow"><FaAngleRight /></span>
-                </Button>
-                </Link>
-            </li>
-            <li className='libar'>
-                <Link to="/">
-                <Button className={`btn w-100 ${activeTab===13 ? 'active' : ''}`} onClick={()=>isOpenSubMenu(13)} >
-                
-                    <span className="icon"><FaProductHunt /></span>
-                    Products
-                    <span className="arrow"><FaAngleRight /></span>
-                </Button>
-                </Link>
-            </li>
-            <li className='libar'>
-                <Link to="/">
-                <Button className={`btn w-100 ${activeTab===14 ? 'active' : ''}`} onClick={()=>isOpenSubMenu(14)} >
-                
-                    <span className="icon"><FaShoppingCart /></span>
-                   Orders
-                    <span className="arrow"><FaAngleRight /></span>
-                </Button>
-                </Link>
-            </li>
-            <li className='libar'>
-                <Link to="/">
-                <Button className={`btn w-100 ${activeTab===15 ? 'active' : ''}`} onClick={()=>isOpenSubMenu(15)} >
-                
-                    <span className="icon"><IoMdMail /></span>
-                    Messages
-                    <span className="arrow"><FaAngleRight /></span>
-                </Button>
-                </Link>
-            </li>
-            <li className='libar'>
-                <Link to="/">
-                <Button className={`btn w-100 ${activeTab===16 ? 'active' : ''}`} onClick={()=>isOpenSubMenu(16)} >
-                
-                    <span className="icon"><IoNotifications /></span>
-                    Notifications
-                    <span className="arrow"><FaAngleRight /></span>
-                </Button>
-                </Link>
-            </li>
-            <li className='libar'>
-                <Link to="/">
-                <Button className={`btn w-100 ${activeTab===17 ? 'active' : ''}`} onClick={()=>isOpenSubMenu(17)}  >
-                
-                    <span className="icon"><IoSettingsSharp /></span>
-                    Setting
-                    <span className="arrow"><FaAngleRight /></span>
-                </Button>
-                </Link>
-            </li>
+           
         </ul>
+
+        <br />
+        <div className="logoutWrapper">
+
+<div className="logoutBox">
+    <Button className="btn" variant='contained'><FiLogOut />
+         Logout
+    </Button>
+</div>
+        </div>
+
     </div>
   </>
   )
