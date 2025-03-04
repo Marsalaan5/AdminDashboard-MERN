@@ -29,7 +29,7 @@ const isOpenSubMenu = (index) =>{
         <ul>
             <li className='libar'>
                 <Link to="/">
-                <Button className={`btn w-100 ${activeTab===0 ? 'active' : ''}`}  onClick={()=>isOpenSubMenu(0)} >
+                <Button className={`btn w-100 ${activeTab===0  && isToggleSubmenu === true ?  'active' : ''}`}  onClick={()=>isOpenSubMenu(0)} >
                 
                     <span className="icon"><MdDashboard /></span>
                     Dashboard
@@ -39,7 +39,7 @@ const isOpenSubMenu = (index) =>{
             </li>
             <li className='libar'>
                 
-                <Button className={`btn w-100 ${activeTab===1 ? 'active' : ''}`} onClick={()=>isOpenSubMenu(1)}>
+                <Button className={`btn w-100 ${activeTab===1  && isToggleSubmenu === true ? 'active' : ''}`} onClick={()=>isOpenSubMenu(1)}>
                 
                     <span className="icon"><FaProductHunt /></span>
                     Products

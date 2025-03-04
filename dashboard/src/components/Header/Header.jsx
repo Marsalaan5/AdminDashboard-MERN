@@ -417,6 +417,7 @@ function Header() {
               </Button>
 
               <Menu
+              className="dropdown-info"
                 anchorEl={anchorEl}
                 id="account-menu"
                 open={open}
