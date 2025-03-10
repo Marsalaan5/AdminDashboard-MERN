@@ -77,6 +77,16 @@ const isOpenSubMenu = (index) =>{
             </li>
             <li className='libar'>
                 <Link to="/">
+                <Button className={`btn w-100 ${activeTab===3 ? 'active' : ''}`}  onClick={()=>isOpenSubMenu(3)} >
+                
+                    <span className="icon"><IoMdMail /></span>
+                    Blogs
+                    <span className="arrow"><FaAngleRight /></span>
+                </Button>
+                </Link>
+            </li>
+            <li className='libar'>
+                <Link to="/">
                 <Button className={`btn w-100 ${activeTab===4 ? 'active' : ''}`} onClick={()=>isOpenSubMenu(4)} >
                 
                     <span className="icon"><IoNotifications /></span>
@@ -131,6 +141,16 @@ const isOpenSubMenu = (index) =>{
                 
                     <span className="icon"><IoMdMail /></span>
                     Messages
+                    <span className="arrow"><FaAngleRight /></span>
+                </Button>
+                </Link>
+            </li>
+            <li className='libar'>
+                <Link to="/">
+                <Button className={`btn w-100 ${activeTab===3 ? 'active' : ''}`}  onClick={()=>isOpenSubMenu(3)} >
+                
+                    <span className="icon"><IoMdMail /></span>
+                    Blogs
                     <span className="arrow"><FaAngleRight /></span>
                 </Button>
                 </Link>
