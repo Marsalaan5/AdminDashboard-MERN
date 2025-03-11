@@ -829,7 +829,7 @@ function Dashboard() {
                   <p className="m-b-15 m-t-15">
                     hii <b> @everone</b> Lorem Ipsum is simply dummy text of the
                     printing and typesetting industry. Lorem Ipsum has been the
-                    industry's standard dummy text ever since the 1500s.
+                    industry&apos;s standard dummy text ever since the 1500s.
                   </p>
                   <div className="row">
                     <div className="text-center col-sm-auto">
@@ -888,7 +888,7 @@ function Dashboard() {
                   <p className="m-b-15 m-t-15">
                     hii <b> @everone</b> Lorem Ipsum is simply dummy text of the
                     printing and typesetting industry. Lorem Ipsum has been the
-                    industry's standard dummy text ever since the 1500s.
+                    industry&apos;s standard dummy text ever since the 1500s.
                   </p>
                 </li>
               </ul>
@@ -910,31 +910,34 @@ function Dashboard() {
                     <thead>
                       <tr>
                         <th>
-                          <span>Campaign date</span>
+                          <span>UID</span>
                         </th>
                         <th>
-                          <span>Click</span>
+                          <span>Product</span>
                         </th>
                         <th>
-                          <span>Cost</span>
+                          <span>Category</span>
                         </th>
                         <th>
-                          <span>CTR</span>
+                          <span>Brand</span>
                         </th>
                         <th>
-                          <span>ARPU</span>
+                          <span>Price</span>
                         </th>
                         <th>
-                          <span>ECPI</span>
+                          <span>Stock</span>
                         </th>
                         <th>
-                          <span>ROI</span>
+                          <span>Rating</span>
                         </th>
                         <th>
-                          <span>Revenue</span>
+                          <span>Order</span>
                         </th>
                         <th>
-                          <span>Conversions</span>
+                          <span>Sales</span>
+                        </th>
+                        <th>
+                          <span>Action</span>
                         </th>
                       </tr>
                     </thead>
@@ -951,6 +954,7 @@ function Dashboard() {
                         <td>8,56</td>
                         <td>10:55</td>
                         <td>33.8%</td>
+                        <td>33.8%</td>
                       </tr>
                       <tr>
                         <td>15-10-2016</td>
@@ -961,6 +965,7 @@ function Dashboard() {
                         <td>6,6%</td>
                         <td>7,56</td>
                         <td>4:30</td>
+                        <td>76.8%</td>
                         <td>76.8%</td>
                       </tr>
                       <tr>
@@ -973,6 +978,7 @@ function Dashboard() {
                         <td>9,45</td>
                         <td>9:05</td>
                         <td>8.63%</td>
+                        <td>8.63%</td>
                       </tr>
                       <tr>
                         <td>11-12-2017</td>
@@ -983,6 +989,7 @@ function Dashboard() {
                         <td>45,6%</td>
                         <td>6,85</td>
                         <td>7:45</td>
+                        <td>33.8%</td>
                         <td>33.8%</td>
                       </tr>
                       <tr>
@@ -995,6 +1002,7 @@ function Dashboard() {
                         <td>7,56</td>
                         <td>8:45</td>
                         <td>39.8%</td>
+                        <td>39.8%</td>
                       </tr>
                       <tr>
                         <td>08-11-2016</td>
@@ -1006,6 +1014,7 @@ function Dashboard() {
                         <td>8,56</td>
                         <td>10:55</td>
                         <td>33.8%</td>
+                        <td>33.8%</td>
                       </tr>
                       <tr>
                         <td>15-10-2016</td>
@@ -1016,6 +1025,7 @@ function Dashboard() {
                         <td>6,6%</td>
                         <td>7,56</td>
                         <td>4:30</td>
+                        <td>76.8%</td>
                         <td>76.8%</td>
                       </tr>
                     </tbody>

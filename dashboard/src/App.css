@@ -55,7 +55,7 @@ body{background-color: #f5f5f5;}
 /* .main {overflow: hidden;} */
 .btn{color: #0858f7;}
 
-header{width: 100%;height: 100px;background:#ddf7ff;position: fixed;top: 0px;left: 0px;z-index: 1000;}
+header{width: 100%;height: 100px;background:#ddf7ff;position: fixed;top: 0px;left: 10px;z-index:1000px;}
 
 header .logo{text-decoration: none;}
 header .logo img{width: 45px;}
@@ -63,11 +63,11 @@ header .logo span{font-size: 24px;font-weight: 800;color: #292929;margin: 10px;}
 
 header button.rounded-circle{min-width: 30px;height: 30px; width: 35px; background: #f5f5f5; color: #292929;} 
 header button.rounded-circle:hover { background: #e0e0e0;}
-header button.rounded-circle svg{width: 20px;height: 20px;color: #292929;font-size: 20px;}
+header button.rounded-circle svg{width: 30px;height: 30px;color: #292929;font-size: 30px;}
 
 
 .search-box {padding: 5px 15px;background-color: #fff;}
-.search-box .input {border: none;outline: none;padding: 8px 10px;  width: 200px;font-size: 14px;}
+.search-box .input {border: none;outline: none;padding: 8px 10px;  width: 300px;font-size: 14px;}
 
 .account-box{text-align: left !important; color: #292929 !important;}
 .account-box .account-box-img{display: flex;align-items: center;justify-content: center;overflow: hidden;width: 40px;height: 40px;border: 1px solid grey;padding: 2px;border-radius: 100%;}
@@ -100,8 +100,34 @@ header button.rounded-circle svg{width: 20px;height: 20px;color: #292929;font-si
 
 .dropdown_list .scroll{max-height: 300px;}
 
- .sidebarWrapper{width: 18%;flex: 0 0 2%;transition:all 0.3s ease-in-out ;}
- .sidebarWrapper .sidebar{width: 16%;height:100vh;max-width: 100vh; position:fixed;top: 100px;left: 0px;background:#ddf7ff;overflow-y: scroll;overflow-x: hidden; }
+/*Sidebar*/
+.menu-link {text-decoration: none; color: inherit;}
+
+.submenu-link {text-decoration: none;color: inherit;}
+
+.active {font-weight: bold;color: #007bff;}
+
+
+ /* .sidebarWrapper{width: 18%;transition:all 0.3s ease-in-out ;} */
+
+ /* .sidebarWrapper .sidebar{width: 17%;height:100vh;max-width: 100vh; position:fixed;top: 100px;left: 0px;background:#ddf7ff;overflow-y: scroll;transition: all 0.3s ease-in-out;} */
+ .sidebarWrapper.toggle{transform: translate(-100%);transition: all 0.3s ease-in-out;}
+ /* .sidebarWrapper.sidebar.toggle{transform: translate(-100%);} */
+
+ /* Sidebar Wrapper: Initially takes 18% of the width */
+.sidebarWrapper {width: 18%;transition: all 0.3s ease-in-out;}
+
+/* Sidebar styling: 17% width, fixed position, full height */
+.sidebarWrapper .sidebar {width: 17%;height: 100vh;max-width: 100vh;position: fixed;top: 100px;left: 0;background: #ddf7ff;overflow-y: scroll;transition: all 0.3s ease-in-out;}
+
+/* If sidebarWrapper has the 'toggle' class, move the sidebar out of view */
+.sidebarWrapper.toggle .sidebar {transform: translateX(-100%);transition: all 0.3s ease-in-out;}
+
+/* Optionally, you can add styles for a close button in the sidebar */
+/* .sidebarWrapper .sidebar .close-btn {position: absolute;top: 20px;right: 20px;background:transparent;border: none;font-size: 1.5em;cursor: pointer;transition: 0.3s;}
+.sidebarWrapper .sidebar .close-btn:hover { color: #ff6b6b;} */
+
+
 
  .sidebarWrapper .sidebar::-webkit-scrollbar-thumb{background: transparent !important;}
  .sidebarWrapper:hover .sidebar::-webkit-scrollbar{background: #0858f7 !important;}
@@ -122,13 +148,7 @@ header button.rounded-circle svg{width: 20px;height: 20px;color: #292929;font-si
 .sidebarWrapper .sidebar ul .submenu li a{color:#5e5d72 !important;text-decoration: none;display: block;padding: 8px 0px;font-size: 14px;font-weight: 500;transition: all 0.3s;}
 
 .sidebarWrapper .sidebar ul .submenu li a:hover{color: #0858f7 !important;}
-
-
-/* .main .sidebarWrapper .sidebar ul li button .arrow svg{color: #000;opacity: 0.8;font-size: 22px;} */
-
  .sidebarWrapper .sidebar ul li button .arrow{margin-left:auto;width:25px;display: flex;align-items: center;height: 25px;justify-content:center;transition: all 0.3s ease-in-out;}
-
-
  .sidebarWrapper .sidebar ul li button .icon svg{color: #000;opacity: 0.8;font-size: 22px;}
  .sidebarWrapper .sidebar ul li button .icon{margin-right: 10px;width:25px;height: 25px; display: flex;align-items:center;height: 15px;justify-content:center;}
 
@@ -151,12 +171,14 @@ header button.rounded-circle svg{width: 20px;height: 20px;color: #292929;font-si
 
 .logoutBox svg{margin-right: 10px;font-size: 18px;}
 
-/* .main .content{width: 50%; flex: 0 0 80%;} */
+.main .content{width: 50%;flex: 0 0 80%;margin: 100px 0; transition: all 0.3s ease-in-out;}
+.main .content.toggle{width: 100%; flex: 0  0 100%};
 
-/* .main .content { */
-  /* flex: 0 0 80%; */
-  /* max-width: 80%; */
-/* } */
+/* .main .content {
+  flex: 0 0 80%;
+  max-width: 80%;
+} */
+
 
 
 /* .right-contentDashboard{padding: 90px 30px;    margin: 20px 340px} */
