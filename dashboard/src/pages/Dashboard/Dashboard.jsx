@@ -544,13 +544,14 @@
 
 // export default Dashboard;
 
-import { useEffect } from "react";
+import { useEffect,useContext} from "react";
 import PerfectScrollbar from "perfect-scrollbar";
 import DashboardBox from "./components/DashboardBox";
 import ApexCharts from "react-apexcharts";
 import user from "../../assets/user.jpg";
 import { FaEnvelopeOpen } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
+import {MyContext} from "../../context/Context.jsx"
 
 import {
   FaShoppingCart,
@@ -653,8 +654,15 @@ function Dashboard() {
     return () => ps.destroy(); // Clean up on component unmount
   }, []);
 
+const context = useContext(MyContext)
+
+  useEffect(() => {
+   context.setIsHideSidebarAndHeader(false)
+  },)
+  
+
   return (
-    <div className="right-contentDashboard">
+    <div className="right-contentDashboard w-98">
       <div className="row">
         <div className="col-md-3">
           <DashboardBox

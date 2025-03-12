@@ -488,6 +488,9 @@ function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isOpenNotification, setIsNotification] = useState(false);
 
+const [isLogin,setIsLogin] = useState(false)
+
+
   const open = Boolean(anchorEl);
   const openNotifications = Boolean(isOpenNotification);
 
@@ -543,8 +546,8 @@ function Header() {
           </div>
 
           {/* Notifications, Cart, and Account info */}
-          <div className="col-6 col-sm-7 d-flex align-items-center justify-content-end part3 pl-4 gap-2">
-            <Button className="rounded-circle mr-3" aria-label="Light Mode">
+          <div className="col-6 col-sm-7 d-flex align-items-center justify-content-end part3 gap-2">
+            <Button className="rounded-circle mr-3" aria-label="Light Mode" onClick={()=>context.setThemeMode(!context.themeMode)}>
               <MdLightMode />
             </Button>
             <Button className="rounded-circle mr-3" aria-label="Dark Mode">
@@ -599,52 +602,60 @@ function Header() {
             </div>
 
             {/* User account dropdown */}
-            <div className="account-box-wrapper">
-              <Button
-                className="account-box d-flex align-items-center"
-                onClick={handleOpenMyAccDr}
-                aria-label="User Account"
-              >
-                <div className="account-box-img">
-                  <span className="rounded-circle">
-                    <img src={user} alt="avatar" />
-                  </span>
-                </div>
-                <div className="userInfo">
-                  <h4>Mohammad Rashid</h4>
-                  <p className="text-muted">@rashid5</p>
-                </div>
-              </Button>
 
-              <Menu
-                className="dropdown-info"
-                anchorEl={anchorEl}
-                id="account-menu"
-                open={open}
-                onClose={handleCloseMyAccDr}
-                onClick={handleCloseMyAccDr}
-              >
-                <MenuItem onClick={handleCloseMyAccDr}>
-                  <Avatar /> Profile
-                </MenuItem>
-                <MenuItem onClick={handleCloseMyAccDr}>
-                  <Avatar /> My account
-                </MenuItem>
-                <Divider />
-                <MenuItem onClick={handleCloseMyAccDr}>
-                  <ListItemIcon>
-                    <Settings fontSize="small" />
-                  </ListItemIcon>
-                  Settings
-                </MenuItem>
-                <MenuItem onClick={handleCloseMyAccDr}>
-                  <ListItemIcon>
-                    <Logout fontSize="small" />
-                  </ListItemIcon>
-                  Logout
-                </MenuItem>
-              </Menu>
-            </div>
+  
+{ !isLogin===true ? <Link to={'/login'}><Button className="btn-primary btn-" variant="contained" size="small">Sign In</Button> </Link>  :   <div className="account-box-wrapper">
+
+<Button
+  className="account-box d-flex align-items-center"
+  onClick={handleOpenMyAccDr}
+  aria-label="User Account"
+>
+  <div className="account-box-img">
+    <span className="rounded-circle">
+      <img src={user} alt="avatar" />
+    </span>
+  </div>
+  <div className="userInfo">
+    <h4>Mohammad Rashid</h4>
+    <p className="text-muted">@rashid5</p>
+  </div>
+</Button>
+
+<Menu
+  className="dropdown-info"
+  anchorEl={anchorEl}
+  id="account-menu"
+  open={open}
+  onClose={handleCloseMyAccDr}
+  onClick={handleCloseMyAccDr}
+>
+  <MenuItem onClick={handleCloseMyAccDr}>
+    <Avatar /> Profile
+  </MenuItem>
+  <MenuItem onClick={handleCloseMyAccDr}>
+    <Avatar /> My account
+  </MenuItem>
+  <Divider />
+  <MenuItem onClick={handleCloseMyAccDr}>
+    <ListItemIcon>
+      <Settings fontSize="small" />
+    </ListItemIcon>
+    Settings
+  </MenuItem>
+  <MenuItem onClick={handleCloseMyAccDr}>
+    <ListItemIcon>
+      <Logout fontSize="small" />
+    </ListItemIcon>
+    Logout
+  </MenuItem>
+</Menu>
+</div>  }
+
+
+
+
+          
           </div>
         </div>
       </div>
@@ -653,3 +664,5 @@ function Header() {
 }
 
 export default Header;
+
+

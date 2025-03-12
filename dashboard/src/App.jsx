@@ -5,17 +5,43 @@ import Dashboard from './pages/Dashboard/Dashboard.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header.jsx';
 import Sidebar from './components/Sidebar/Sidebar.jsx';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { MyContext } from './context/Context.jsx';
+import Login from './pages/Login/Login.jsx';
+import Register from './pages/Register/Register.jsx';
 
 function App() {
 const[isToggleSidebar,setIsToggleSidebar] = useState(false)
+const[isLogin,setIsLogin] = useState(false)
+const[isHideSidebarAndHeader,setIsHideSidebarAndHeader] = useState(false)
+const[themeMode,setThemeMode] = useState(true)
+
+
 
 const value = {
   isToggleSidebar,
   setIsToggleSidebar,
-
+  isLogin,
+  setIsLogin,
+isHideSidebarAndHeader,
+setIsHideSidebarAndHeader,
+themeMode,
+setThemeMode,
 }
+
+useEffect(() => {
+  if(themeMode===true){
+    document.body.classList.remove('dark')
+    document.body.classList.add('light')
+    localStorage.setItem('themeMode',themeMode)
+  }
+else{
+  document.body.classList.remove('light')
+  document.body.classList.add('dark')
+  localStorage.setItem('themeMode',themeMode)
+}
+}, [themeMode])
+
 
 
   return (
@@ -23,12 +49,18 @@ const value = {
     <MyContext.Provider value={value}>
 
     {/* <Navbar/> */}
-  <Header/>
+{
+  isHideSidebarAndHeader !==true && <Header/>
+}
   <div className='main d-flex'>
 {/* <div className="sidebarWrapper"> */}
-<div className={`sidebarWrapper ${isToggleSidebar===true ? 'toggle' : ''}`}>
+
+{
+  isHideSidebarAndHeader !==true && <div className={`sidebarWrapper ${isToggleSidebar===true ? 'toggle' : ''}`}>
   <Sidebar/>
 </div>
+}
+
 
 <div className={`content ${isToggleSidebar===true ? 'toggle' : ''}`}>
 <Routes>
@@ -36,6 +68,8 @@ const value = {
       <Route path='/header' element={<Header/>}/>
       <Route path='/' element={<Dashboard/>}/>
       <Route path='/dashboard' element={<Dashboard/>}/>
+      <Route path='/login' element={<Login/>}/>
+      <Route path='/register' element={<Register/>}/>
     </Routes>
 </div>
   </div>
