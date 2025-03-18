@@ -64,40 +64,87 @@ header button.rounded-circle svg {
   font-size: 10px;
 }
 
+body.dark {
+  background: #071739;
+  color: white;
+}
 
-body.dark{background: #071739;}
+body.dark header {
+  background-color: #112143 !important;
+}
+body.dark header button.rounded-circle svg {
+  background-color: #fff !important;
+}
+body.dark header .logo span {
+  color: white !important;
+}
+body.dark .account-box .userInfo * {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+body.dark .MuiPaper-elevation {
+  background-color: #112143 !important;
+}
+body.dark .MuiPaper-elevation li *,
+body.dark .MuiPaper-elevation li {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
 
-body.dark header{background-color: #112143 !important;}
-body.dark header button.rounded-circle svg{background-color:#fff !important;}
-body.dark header .logo span{color: white !important;}
-body.dark .account-box .userInfo *{color:rgba(255, 255, 255, 0.8) !important;}
-body.dark .MuiPaper-elevation{background-color: #112143 !important;}
-body.dark .MuiPaper-elevation li *,body.dark .MuiPaper-elevation li{color:rgba(255, 255, 255, 0.8) !important;}
+body.dark .sidebarWrapper .sidebar {
+  background-color: #112143 !important;
+}
+body.dark .sidebarWrapper .sidebar ul li button {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
 
-body.dark .sidebarWrapper .sidebar  {background-color: #112143 !important;}
-body.dark .sidebarWrapper .sidebar ul li button {color:rgba(255, 255, 255, 0.9)!important;}
+body.dark .sidebarWrapper .sidebar ul li button svg {
+  color: rgba(255, 255, 255, 0.9);
+}
 
-body.dark .sidebarWrapper .sidebar ul li button svg{color: rgba(255, 255, 255, 0.9);}
+body.dark .sidebarWrapper .sidebar ul li button:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+body.dark .sidebarWrapper .sidebar ul li button.active {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
 
+body.dark .sidebarWrapper .sidebar ul .submenu::before {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+body.dark .sidebarWrapper .sidebar ul .submenu li a {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+body.dark .sidebarWrapper .sidebar ul .submenu li a:hover {
+  color: #0858f7 !important;
+}
 
-body.dark .sidebarWrapper .sidebar ul li button:hover {background: rgba(255, 255, 255, 0.1) !important;}
-body.dark .sidebarWrapper .sidebar ul li button.active {background: rgba(255, 255, 255, 0.1) !important;}
+body.dark .logoutWrapper .logoutBox {
+  background: transparent;
+  background-image: linear-gradient(#183e8c, #163474);
+}
 
-body.dark .sidebarWrapper .sidebar ul .submenu::before {background: rgba(255, 255, 255, 0.2) !important;}
-body.dark .sidebarWrapper .sidebar ul .submenu li a{color: rgba(255, 255, 255, 0.8) !important;}
-body.dark .sidebarWrapper .sidebar ul .submenu li a:hover{color: #0858f7!important;}
-
-body.dark .logoutWrapper .logoutBox {background: transparent; background-image:linear-gradient(#183e8c,#163474);}
-
-body.dark .card{background: #163474;}
-body.dark .card-body{color:white;}
-body.dark .card-header h5{color:white;}
+body.dark .card {
+  background: #163474;
+}
+body.dark .card-body {
+  color: white;
+}
+body.dark .card-header h5 {
+  color: white;
+}
 /* body.dark .apexcharts-canvas {background-color:#163474 !important} */
-body.dark .apexcharts-canvas text{color: white;}
-body.dark .apexcharts-legend span svg{background-color:white;}
-body.dark .apexcharts-legend-text{color:rgba(255, 255, 255, 0.8) !important;}
+body.dark .apexcharts-canvas text {
+  color: white;
+}
+body.dark .apexcharts-legend span svg {
+  background-color: white;
+}
+body.dark .apexcharts-legend-text {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
 
-body.dark .apexcharts-title-text{color: rgba(255, 255, 255, 0.8);}
+body.dark .apexcharts-title-text {
+  color: rgba(255, 255, 255, 0.8);
+}
 /* body.dark .scrollbar-container {background-color: #007bff;} */
 /* body.dark .card-body .table-card .scrollbar-container .table-responsive .table{background-color: #007bff;} */
 
@@ -173,14 +220,9 @@ body.dark .apexcharts-title-text{color: rgba(255, 255, 255, 0.8);}
   opacity: 0.7;
 }
 
-#notifications .MuiPaper-elevation {
-  left: 65% !important;
-  width: 400px !important;
-  top: 110px !important;
-}
 
-.MuiPaper-elevation{
-  margin:10px 28px;
+.MuiPaper-elevation {
+  margin: 40px 8px;
 }
 
 .head h6 {
@@ -192,7 +234,6 @@ body.dark .apexcharts-title-text{color: rgba(255, 255, 255, 0.8);}
   background: #ebf6ff !important;
   color: #000 !important;
   padding: 8px;
-
 }
 .dropdown_list li.MuiButtonBase-root:hover {
   background: #e2e8ed !important;
@@ -297,7 +338,9 @@ body.dark .apexcharts-title-text{color: rgba(255, 255, 255, 0.8);}
   text-transform: capitalize;
 }
 
-.sidebarWrapper .sidebar ul li button:hover{background: #f1f1f1 !important;}
+.sidebarWrapper .sidebar ul li button:hover {
+  background: #f1f1f1 !important;
+}
 
 .sidebarWrapper .sidebar ul li button.active {
   background: #f1f1f1 !important;
@@ -461,7 +504,6 @@ body.dark .apexcharts-title-text{color: rgba(255, 255, 255, 0.8);}
 .logoLogin img {
   width: 130px;
   height: 104px;
-
 }
 
 .dashboardBox:hover {
@@ -482,7 +524,7 @@ body.dark .apexcharts-title-text{color: rgba(255, 255, 255, 0.8);}
   text-align: center;
 }
 
-.right-contentDashboard{
+.right-contentDashboard {
   margin-top: 104px;
 }
 

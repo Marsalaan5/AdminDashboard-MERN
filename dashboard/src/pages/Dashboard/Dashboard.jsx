@@ -548,7 +548,7 @@ import { useEffect,useContext} from "react";
 import PerfectScrollbar from "perfect-scrollbar";
 import DashboardBox from "./components/DashboardBox";
 import ApexCharts from "react-apexcharts";
-import user from "../../assets/user.jpg";
+import userr from "../../assets/userr.jpg";
 import { FaEnvelopeOpen } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import {MyContext} from "../../context/Context.jsx"
@@ -826,7 +826,7 @@ const context = useContext(MyContext)
                     {/* <img src="/demos/admin-templates/gradient-able/react/default/assets/avatar-1-BPGuQDYC.jpg" className="img-radius " alt="User-Profile"> */}
 
                     <span className="rounded-circle">
-                      <img src={user} alt="avatar" />
+                      <img src={userr} alt="avatar" />
                     </span>
                   </div>
                   <h6>
@@ -869,7 +869,7 @@ const context = useContext(MyContext)
                     {/* <img src="/demos/admin-templates/gradient-able/react/default/assets/avatar-1-BPGuQDYC.jpg" className="img-radius " alt="User-Profile"> */}
 
                     <span className="rounded-circle">
-                      <img src={user} alt="avatar" />
+                      <img src={userr} alt="avatar" />
                     </span>
                   </div>
                   <h6>
@@ -884,7 +884,7 @@ const context = useContext(MyContext)
                     {/* <img src="/demos/admin-templates/gradient-able/react/default/assets/avatar-1-BPGuQDYC.jpg" className="img-radius " alt="User-Profile"> */}
 
                     <span className="rounded-circle">
-                      <img src={user} alt="avatar" />
+                      <img src={userr} alt="avatar" />
                     </span>
                   </div>
                   <h6>

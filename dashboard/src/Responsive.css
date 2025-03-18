@@ -1,0 +1,250 @@
+/* Mobile View (max-width: 476px) */
+@media (max-width: 476px) {
+    
+    header {
+      height: 80px;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    .search-box .input {
+      width: 150px;
+    }
+  
+    .sidebarWrapper {
+      display: none;
+    }
+
+
+  
+    /* Mobile Drawer Styles */
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: #ddf7ff;
+      z-index: 999;
+      transition: left 0.3s ease-in-out;
+    }
+  
+    .mobile-drawer.active {
+      left: 0;
+    }
+  
+    .mobile-drawer ul {
+      padding: 20px;
+      list-style: none;
+      margin-top: 80px;
+    }
+  
+    .mobile-drawer ul li {
+      margin: 15px 0;
+    }
+  
+    .mobile-drawer ul li button {
+      font-size: 16px;
+      color: #000;
+      background: transparent;
+      border: none;
+      text-align: left;
+      padding: 12px 0;
+      width: 100%;
+    }
+  
+    .mobile-drawer ul li button:hover {
+      background-color: #f1f1f1;
+    }
+  
+    .hamburger-menu {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 20px;
+      width: 30px;
+      cursor: pointer;
+    }
+  
+    .hamburger-menu div {
+      height: 4px;
+      background-color: #292929;
+      margin: 4px 0;
+      transition: all 0.3s ease;
+    }
+  
+    .hamburger-menu.open div:nth-child(1) {
+      transform: rotate(45deg);
+      position: relative;
+      top: 7px;
+    }
+  
+    .hamburger-menu.open div:nth-child(2) {
+      opacity: 0;
+    }
+  
+    .hamburger-menu.open div:nth-child(3) {
+      transform: rotate(-45deg);
+      position: relative;
+      bottom: 7px;
+    }
+  
+    .main .content {
+      width: 100%;
+      padding: 10px;
+    }
+  }
+  
+  /* Tablet View (max-width: 768px) */
+  @media (max-width: 768px) {
+    body {
+      background-color: #f5f5f5;
+    }
+  
+    header {
+      height: 90px;
+    }
+  
+    header .logo span {
+      font-size: 20px;
+    }
+  
+    .search-box .input {
+      width: 270px;
+    }
+  
+    .sidebarWrapper {
+      width: 80%;
+    }
+  
+    .sidebarWrapper .sidebar {
+      width: 80%;
+      top: 90px;
+      height: calc(100vh - 90px);
+    }
+  
+    .dashboardBox {
+      flex: 0 0 140px;
+      font-size: 17px;
+    }
+  
+    .card-body {
+      padding: 18px;
+    }
+  
+    .table-card .table th,
+    .table-card .table td {
+      padding: 10px;
+    }
+  
+    .scrollbar-container {
+      max-height: 300px;
+      overflow-x: auto;
+    }
+  
+    .feed-user-img img {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .envelope, .twitter {
+      font-size: 24px;
+    }
+  
+    /* Responsive Adjustments for Dashboard */
+    .right-contentDashboard {
+      width: 100%;
+      padding: 10px;
+    }
+  
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  
+    .col-md-3, .col-xl-6, .col-sm-6, .col-lg-4, .col-lg-8 {
+      width: 100%;
+    }
+  
+    .charts {
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    .card {
+      width: 100%;
+      padding: 10px;
+    }
+  
+    .feedback {
+      flex-direction: column;
+    }
+  
+    /* Flex Adjustments for Smaller Screens */
+    .part1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    .logo img {
+      width: 40px;
+      height: auto;
+    }
+  
+    .logo span {
+      font-size: 1rem;
+    }
+  
+    .part2 {
+      display: flex;
+      justify-content: flex-start;
+    }
+  
+    .menu-btn {
+      width: 40px;
+      height: 40px;
+      min-width: auto;
+      padding: 5px;
+    }
+  
+    .search {
+      flex: 1;
+    }
+  
+    .part3 {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 5px;
+    }
+  
+    .account-box-wrapper {
+      flex: 1;
+      justify-content: center;
+    }
+  
+    .dropdown-wrapper-notification,
+    .account-box {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .account-box .userInfo h4 {
+      font-size: 0.9rem;
+    }
+  
+    .account-box .userInfo p {
+      font-size: 0.8rem;
+    }
+  
+    .btn-primary {
+      font-size: 0.8rem;
+      padding: 5px 10px;
+    }
+  }
+  
