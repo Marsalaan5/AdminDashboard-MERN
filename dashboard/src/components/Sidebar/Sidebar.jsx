@@ -10,6 +10,10 @@ import { Link } from 'react-router-dom'; // Use react-router-dom Link for routin
 import { useContext, useState } from 'react';
 import { FiLogOut } from "react-icons/fi";
 import { MyContext } from '../../context/Context';
+import { AiOutlineStock } from "react-icons/ai";
+import { MdOutlineSell } from "react-icons/md";
+import { BsCashCoin } from "react-icons/bs";
+import { MdCategory } from "react-icons/md";
 
 function Sidebar() {
     const [activeTab, setActiveTab] = useState(null);
@@ -29,15 +33,30 @@ function Sidebar() {
             { label: "Sales", route: "/sale/view" },
         ] },
         { id: 1, label: "Products", icon: <FaProductHunt />, route: "/products", submenu: [
-            { label: "Product List", route: "/products/list" },
-            { label: "Product View", route: "/products/view" },
-            { label: "Product Upload", route: "/products/upload" },
+            { label: "Product List", route: "/productlist" },
+            { label: "Product View", route: "/products_view" },
+            { label: "Product Upload", route: "/products_upload" },
         ] },
-        { id: 2, label: "Orders", icon: <FaShoppingCart />, route: "/orders" },
-        { id: 3, label: "Messages", icon: <IoMdMail />, route: "/messages" },
-        { id: 4, label: "Blogs", icon: <IoMdMail />, route: "/blogs" },
-        { id: 5, label: "Notifications", icon: <IoNotifications />, route: "/notifications" },
-        { id: 6, label: "Settings", icon: <IoSettingsSharp />, route: "/settings" },
+        { id: 2, label: "Stocks", icon: <AiOutlineStock />, route: "/stocks", submenu: [
+            { label: "Add Product", route: "/addstocks" },
+            { label: "Product List", route: "/productlist" },
+        ] },
+        { id: 3, label: "Sells", icon: <MdOutlineSell />, route: "/sells", submenu: [
+            { label: "New Sell", route: "/newsell" },
+            { label: "Sell List", route: "/sell_list" },
+            { label: "Sell Return List", route: "/sell_return" },
+        ] },
+        { id: 4, label: "Buy", icon: <BsCashCoin />, route: "/buy", submenu: [
+            { label: "New Buy", route: "/newbuy" },
+            { label: "Buy List", route: "/buy_list" },
+            { label: "Buy Refund List", route: "/buy_refund" },
+        ] },
+        { id: 5, label: "Category", icon: <MdCategory />, route: "/category" },
+        { id: 6, label: "Orders", icon: <FaShoppingCart />, route: "/orders" },
+        { id: 7, label: "Messages", icon: <IoMdMail />, route: "/messages" },
+        { id: 8, label: "Blogs", icon: <IoMdMail />, route: "/blogs" },
+        { id: 9, label: "Notifications", icon: <IoNotifications />, route: "/notifications" },
+        { id: 10, label: "Settings", icon: <IoSettingsSharp />, route: "/settings" },
     ];
 
     return (
