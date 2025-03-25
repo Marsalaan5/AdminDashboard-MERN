@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 function ProductList() {
-  const [products, setProducts] = useState([]);
+  const [stocks, setStocks] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/products")
-      .then((response) => setProducts(response.data))
+      .get("http://localhost:5000/api/stock_categories")
+      .then((response) => setStocks(response.data))
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
@@ -21,7 +21,7 @@ function ProductList() {
             <h3 className="card-title">
               <b>Total Product List</b>
             </h3>
-            <a href="/add-product" className="btn btn-primary btn-sm float-right rounded-0" style={{ margin: "8px" }}>
+            <a href="/addstocks" className="btn btn-primary btn-sm float-right rounded-0" style={{ margin: "8px" }}>
               <i className="fas fa-plus"></i> New Product
             </a>
           </div>
@@ -43,17 +43,17 @@ function ProductList() {
                   </tr>
                 </thead>
                 <tbody>
-                  {products.length > 0 ? (
-                      products.map((product, index) => (
-                      <tr key={product._id}>
+                  {stocks.length > 0 ? (
+                      stocks.map((product, index) => (
+                      <tr key={stocks._id}>
                         <td>{index + 1}</td>
-                        <td>{product.product_name}</td>
-                        <td>{product.brand}</td>
-                        <td>{product.p_catagory?.name || "N/A"}</td>
-                        <td>{product.product_source}</td>
-                        <td>{product.alert_quantity}</td>
-                        <td>${product.buy_price}</td>
-                        <td>${product.selling_price}</td>
+                        <td>{stocks.stocks_name}</td>
+                        <td>{stocks.brand}</td>
+                        <td>{stocks.s_catagory?.name || "N/A"}</td>
+                        <td>{stocks.s_source}</td>
+                        <td>{stocks.alert_quantity}</td>
+                        <td>${stocks.buy_price}</td>
+                        <td>${stocks.selling_price}</td>
                         <td>
                           <button className="btn btn-sm btn-warning">Edit</button>
                           <button className="btn btn-sm btn-danger ml-2">Delete</button>

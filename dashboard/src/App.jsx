@@ -12,7 +12,7 @@ import { MyContext } from "./context/Context.jsx";
 import Login from "./pages/Login/Login.jsx";
 import Register from "./pages/Register/Register.jsx";
 import Addstocks from "./pages/Stocks/Addstocks.jsx";
-import ProductList from "./pages/Stocks/Productlist.jsx";
+// import ProductList from "./pages/Stocks/ProductList.jsx";
 import Newsell from "./pages/Sells/Newsell.jsx";
 import SellList from "./pages/Sells/SellList.jsx";
 import Sellreturn from "./pages/Sells/Sellreturn.jsx";
@@ -23,6 +23,12 @@ import Category from "./pages/Category/Category.jsx";
 import ProductDetail from "./pages/Products/ProductDetail.jsx";
 import AddProduct from "./pages/Products/AddProduct.jsx";
 import Products from "./pages/Products/Products.jsx";
+import EditProduct from "./pages/Products/EditProduct.jsx";
+import Customer from "./pages/Customer/Customer.jsx";
+import ProductList from "./pages/Stocks/ProductList.jsx";
+import Supplier from "./pages/Supplier/Supplier.jsx";
+// import EditCustomer from "./pages/Customer/EditCustomer.jsx";
+// import AddCustomer from "./pages/Customer/AddCustomer.jsx";
 
 function App() {
   const [isToggleSidebar, setIsToggleSidebar] = useState(false);
@@ -94,17 +100,32 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/addstocks" element={<Addstocks />} />
-              <Route path="/productlist" element={<Products />} />
+
               <Route path="/newsell" element={<Newsell />} />
               <Route path="/sell_list" element={<SellList />} />
               <Route path="/sell_return" element={<Sellreturn />} />
+
               <Route path="/newbuy" element={<NewBuy />} />
               <Route path="/buy_list" element={<BuyList/>} />
               <Route path="/buy_refund" element={<BuyRefund />} />
+
+              <Route path="/customers" element={<Customer/>} />
+              {/* <Route path="/add_customers" element={<AddCustomer/>} /> */}
+              {/* <Route path="/edit_customers" element={<EditCustomer/>} /> */}
+
+
+              <Route path="/suppliers" element={<Supplier/>} />
+
+
               <Route path="/category" element={<Category/>} />
-              <Route path="/products_view" element={<ProductDetail/>} />
+              <Route path="/addstocks" element={<Addstocks />} />
+              <Route path="/product_list" element={<ProductList />} />
+
               <Route path="/products_upload" element={<AddProduct/>} />
+              <Route path="/edit-product/:productId" element={<EditProduct/>} />
+              <Route path="/products_view" element={<ProductDetail/>} />
+              <Route path="/productlist" element={<Products />} />
+
             </Routes>
           </div>
         </div>

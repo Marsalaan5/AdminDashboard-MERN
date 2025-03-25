@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 function Addstocks() {
-  const [categories, setCategories] = useState([]);
-  const [productData, setProductData] = useState({
-    product_name: "",
+  const [stockCategories, setStockCategories] = useState([]);
+  const [stockData, setStockData] = useState({
+    stock_name: "",
     brand: "",
-    p_catagory: "",
-    product_source: "factory",
+    s_catagory: "",
+    s_source: "factory",
     sku: "",
     alert_quantity: "",
     buy_price: "",
@@ -20,23 +20,23 @@ function Addstocks() {
   // Fetch categories from backend
   useEffect(() => {
     axios
-      .get("http://localhost:5000/categories")
+      .get("http://localhost:5000/api/stock_categories")
       .then((response) => {
         if (response.data.length > 0) {
-          setCategories(response.data);
+          setStockCategories(response.data);
         } else {
-          setCategories([]);
+          setStockCategories([]);
         }
       })
       .catch((error) => {
         console.error("Error fetching categories:", error);
-        setCategories([]); // Ensure categories array is always available
+        setStockCategories([]); // Ensure categories array is always available
       });
   }, []);
 
   // Handle input changes
   const handleChange = (e) => {
-    setProductData({ ...productData, [e.target.name]: e.target.value });
+    setStockData({ ...stockData, [e.target.name]: e.target.value });
   };
 
   // Handle form submission
@@ -44,24 +44,24 @@ function Addstocks() {
     e.preventDefault();
 
     // Form validation
-    if (!productData.product_name || !productData.brand || !productData.p_catagory) {
+    if (!stockData.stock_name || !stockData.brand || !stockData.s_catagory || !stockData.alert_quantity) {
       setErrorMessage("Please fill in all required fields.");
       return;
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/add-product", productData);
-      console.log("Product Added:", response.data);
+      const response = await axios.post("http://localhost:5000/api/stock_categories", stockData); 
+      console.log("Stock Added:", response.data);
 
-      setSuccessMessage("Product added successfully!");
+      setSuccessMessage("Stock added successfully!");
       setErrorMessage("");
 
       // Clear form after successful submission
-      setProductData({
-        product_name: "",
+      setStockData({
+        stock_name: "",
         brand: "",
-        p_catagory: "",
-        product_source: "factory",
+        s_catagory: "",
+        s_source: "factory",
         sku: "",
         alert_quantity: "",
         buy_price: "",
@@ -71,23 +71,20 @@ function Addstocks() {
       // Remove success message after 3 seconds
       setTimeout(() => setSuccessMessage(""), 3000);
     } catch (error) {
-      setErrorMessage("Error adding product, please try again.");
+      setErrorMessage("Error adding stock, please try again.");
       console.error("Error:", error);
     }
   };
 
   return (
     <div className="right-contentDashboard w-98">
-      <section >
+      <section>
         <div className="container-fluid">
           <div className="card">
             <div className="card-header d-flex justify-content-center align-items-center">
               <h3 className="card-title">
-                <b>Add a new product</b>
+                <b>Add a new Stock</b>
               </h3>
-              <button className="btn btn-primary btn-sm rounded-0">
-                <i className="fas fa-plus"></i> Category
-              </button>
             </div>
 
             <div className="card-body">
@@ -98,14 +95,14 @@ function Addstocks() {
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label htmlFor="product_name">Product Name *:</label>
+                      <label htmlFor="stock_name">Stock Name *:</label>
                       <input
                         type="text"
                         className="form-control"
-                        id="product_name"
-                        name="product_name"
-                        placeholder="Enter product name"
-                        value={productData.product_name}
+                        id="stock_name"
+                        name="stock_name"
+                        placeholder="Enter stock name"
+                        value={stockData.stock_name}
                         onChange={handleChange}
                         required
                       />
@@ -121,7 +118,7 @@ function Addstocks() {
                         id="brand"
                         name="brand"
                         placeholder="Enter brand name"
-                        value={productData.brand}
+                        value={stockData.brand}
                         onChange={handleChange}
                         required
                       />
@@ -132,20 +129,20 @@ function Addstocks() {
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label htmlFor="p_catagory">Product Category *:</label>
+                      <label htmlFor="s_catagory">Stock Category *:</label>
                       <select
-                        name="p_catagory"
-                        id="p_catagory"
+                        name="s_catagory"  // Corrected to 's_catagory'
+                        id="s_catagory"  // Corrected to 's_catagory'
                         className="form-control"
-                        value={productData.p_catagory}
+                        value={stockData.s_catagory}
                         onChange={handleChange}
                         required
                       >
                         <option value="" disabled>
                           Select a category
                         </option>
-                        {categories.length > 0 ? (
-                          categories.map((category) => (
+                        {stockCategories.length > 0 ? (
+                          stockCategories.map((category) => (
                             <option key={category.id} value={category.id}>
                               {category.name}
                             </option>
@@ -159,12 +156,12 @@ function Addstocks() {
 
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label htmlFor="product_source">Product Source *:</label>
+                      <label htmlFor="s_source">Stock Source *:</label>
                       <select
-                        name="product_source"
-                        id="product_source"
+                        name="s_source"  // Corrected to 's_source'
+                        id="s_source"  // Corrected to 's_source'
                         className="form-control"
-                        value={productData.product_source}
+                        value={stockData.s_source}
                         onChange={handleChange}
                         required
                       >
@@ -184,8 +181,8 @@ function Addstocks() {
                         className="form-control"
                         id="sku"
                         name="sku"
-                        placeholder="Product SKU"
-                        value={productData.sku}
+                        placeholder="Stock SKU"
+                        value={stockData.sku}
                         onChange={handleChange}
                       />
                     </div>
@@ -200,7 +197,7 @@ function Addstocks() {
                         id="alert_quantity"
                         name="alert_quantity"
                         placeholder="Alert quantity"
-                        value={productData.alert_quantity}
+                        value={stockData.alert_quantity}
                         onChange={handleChange}
                         required
                       />
@@ -218,7 +215,7 @@ function Addstocks() {
                         id="buy_price"
                         name="buy_price"
                         placeholder="Enter buying price"
-                        value={productData.buy_price}
+                        value={stockData.buy_price}
                         onChange={handleChange}
                       />
                     </div>
@@ -233,7 +230,7 @@ function Addstocks() {
                         id="selling_price"
                         name="selling_price"
                         placeholder="Enter selling price"
-                        value={productData.selling_price}
+                        value={stockData.selling_price}
                         onChange={handleChange}
                       />
                     </div>

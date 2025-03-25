@@ -14,6 +14,7 @@ import { AiOutlineStock } from "react-icons/ai";
 import { MdOutlineSell } from "react-icons/md";
 import { BsCashCoin } from "react-icons/bs";
 import { MdCategory } from "react-icons/md";
+import { MdPerson } from "react-icons/md";
 
 function Sidebar() {
     const [activeTab, setActiveTab] = useState(null);
@@ -32,14 +33,14 @@ function Sidebar() {
             { label: "Analytics", route: "/analytics" },
             { label: "Sales", route: "/sale/view" },
         ] },
-        { id: 1, label: "Products", icon: <FaProductHunt />, route: "/products", submenu: [
+        { id: 1, label: "Products", icon: <FaProductHunt />, route: "/productlist", submenu: [
             { label: "Product List", route: "/productlist" },
             { label: "Product View", route: "/products_view" },
             { label: "Product Upload", route: "/products_upload" },
         ] },
         { id: 2, label: "Stocks", icon: <AiOutlineStock />, route: "/stocks", submenu: [
-            { label: "Add Product", route: "/addstocks" },
-            { label: "Product List", route: "/productlist" },
+            { label: "Add Stock", route: "/addstocks" },
+            { label: "Product List", route: "/product_list" },
         ] },
         { id: 3, label: "Sells", icon: <MdOutlineSell />, route: "/sells", submenu: [
             { label: "New Sell", route: "/newsell" },
@@ -51,12 +52,14 @@ function Sidebar() {
             { label: "Buy List", route: "/buy_list" },
             { label: "Buy Refund List", route: "/buy_refund" },
         ] },
-        { id: 5, label: "Category", icon: <MdCategory />, route: "/category" },
-        { id: 6, label: "Orders", icon: <FaShoppingCart />, route: "/orders" },
-        { id: 7, label: "Messages", icon: <IoMdMail />, route: "/messages" },
-        { id: 8, label: "Blogs", icon: <IoMdMail />, route: "/blogs" },
-        { id: 9, label: "Notifications", icon: <IoNotifications />, route: "/notifications" },
-        { id: 10, label: "Settings", icon: <IoSettingsSharp />, route: "/settings" },
+        { id: 5, label: "Supplier", icon: <MdPerson />, route: "/suppliers" },
+        { id: 6, label: "Customer", icon: <MdPerson />, route: "/customers" },
+        { id: 7, label: "Category", icon: <MdCategory />, route: "/category" },
+        { id: 8, label: "Orders", icon: <FaShoppingCart />, route: "/orders" },
+        { id: 9, label: "Messages", icon: <IoMdMail />, route: "/messages" },
+        { id: 10, label: "Blogs", icon: <IoMdMail />, route: "/blogs" },
+        { id: 11, label: "Notifications", icon: <IoNotifications />, route: "/notifications" },
+        { id: 12, label: "Settings", icon: <IoSettingsSharp />, route: "/settings" },
     ];
 
     return (
