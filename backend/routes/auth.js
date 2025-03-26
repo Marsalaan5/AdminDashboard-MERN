@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// const User = require('../models/User');
+const User = require('../models/User');
 // const Customer = require('../models/Customer');
 // const Product = require('../models/Products');
 // const Sale = require('../models/Sale');
@@ -111,6 +111,32 @@ router.post("/sales", async (req, res) => {
         res.status(500).json({ error: "Failed to make sale", details: err.message });
     }
 });
+
+
+
+// Backend (API route)
+router.post("/api/stocks", async (req, res) => {
+  try {
+    const { stock_name, brand, s_category, s_source, sku, alert_quantity, buy_price, selling_price } = req.body;
+    
+    const newStock = new Stock({
+      stock_name,
+      brand,
+      s_category,
+      s_source,
+      sku,
+      alert_quantity,
+      buy_price,
+      selling_price
+    });
+    
+    const savedStock = await newStock.save();
+    res.status(201).json(savedStock);
+  } catch (error) {
+    res.status(500).json({ message: "Error adding stock" });
+  }
+});
+
 
 // Get all categories
 router.get("/categories", async (req, res) => {

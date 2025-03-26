@@ -23,6 +23,7 @@ const productRoutes = require('./routes/product.js');
 const authRoutes = require('./routes/auth.js')
 const categoryRoutes = require('./routes/categories.js');
 const stockCategoryRoutes = require('./routes/stock_categories.js');
+const stockRoutes = require("./routes/stock.js");
 const customerRoutes = require("./routes/customer.js"); 
 const supplierRoutes = require("./routes/supplier.js"); 
 
@@ -36,6 +37,8 @@ app.use(express.json())
 app.use(cors())
 // app.use(cors({ origin: "http://localhost:5000", credentials: true }));
 
+
+app.use("/api/stocks", stockRoutes);
 app.use('/api/suppliers', supplierRoutes);
 app.use('/api/customers', customerRoutes);
  
@@ -51,6 +54,7 @@ const Product = require("./models/Products.js");
 // const Sale = require("./models/Sale.js");
 const Category = require('./models/Category.js');
 const StockCategory = require('./models/StockCategory.js');
+const Stock = require('./models/Stock.js');
 
 
 const CONNECTION_URL = process.env.MONGODB_URI

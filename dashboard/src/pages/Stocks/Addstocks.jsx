@@ -6,7 +6,7 @@ function Addstocks() {
   const [stockData, setStockData] = useState({
     stock_name: "",
     brand: "",
-    s_catagory: "",
+    s_category: "",
     s_source: "factory",
     sku: "",
     alert_quantity: "",
@@ -30,7 +30,7 @@ function Addstocks() {
       })
       .catch((error) => {
         console.error("Error fetching categories:", error);
-        setStockCategories([]); // Ensure categories array is always available
+        setStockCategories([]); 
       });
   }, []);
 
@@ -39,42 +39,43 @@ function Addstocks() {
     setStockData({ ...stockData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ // Frontend (React)
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // Form validation
-    if (!stockData.stock_name || !stockData.brand || !stockData.s_catagory || !stockData.alert_quantity) {
-      setErrorMessage("Please fill in all required fields.");
-      return;
-    }
+  // Form validation
+  if (!stockData.stock_name || !stockData.brand || !stockData.s_category || !stockData.alert_quantity) {
+    setErrorMessage("Please fill in all required fields.");
+    return;
+  }
 
-    try {
-      const response = await axios.post("http://localhost:5000/api/stock_categories", stockData); 
-      console.log("Stock Added:", response.data);
+  try {
+    const response = await axios.post("http://localhost:5000/api/stocks", stockData); // Ensure this URL matches the backend route
+    console.log("Stock Added:", response.data);
 
-      setSuccessMessage("Stock added successfully!");
-      setErrorMessage("");
+    setSuccessMessage("Stock added successfully!");
+    setErrorMessage("");
 
-      // Clear form after successful submission
-      setStockData({
-        stock_name: "",
-        brand: "",
-        s_catagory: "",
-        s_source: "factory",
-        sku: "",
-        alert_quantity: "",
-        buy_price: "",
-        selling_price: "",
-      });
+    // Clear form after successful submission
+    setStockData({
+      stock_name: "",
+      brand: "",
+      s_category: "",
+      s_source: "factory",
+      sku: "",
+      alert_quantity: "",
+      buy_price: "",
+      selling_price: "",
+    });
 
-      // Remove success message after 3 seconds
-      setTimeout(() => setSuccessMessage(""), 3000);
-    } catch (error) {
-      setErrorMessage("Error adding stock, please try again.");
-      console.error("Error:", error);
-    }
-  };
+
+    setTimeout(() => setSuccessMessage(""), 3000);
+  } catch (error) {
+    setErrorMessage("Error adding stock, please try again.");
+    console.error("Error:", error);
+  }
+};
+
 
   return (
     <div className="right-contentDashboard w-98">
@@ -129,12 +130,12 @@ function Addstocks() {
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label htmlFor="s_catagory">Stock Category *:</label>
+                      <label htmlFor="s_category">Stock Category *:</label>
                       <select
-                        name="s_catagory"  // Corrected to 's_catagory'
-                        id="s_catagory"  // Corrected to 's_catagory'
+                        name="s_category"  // Corrected to 's_category'
+                        id="s_category"  // Corrected to 's_category'
                         className="form-control"
-                        value={stockData.s_catagory}
+                        value={stockData.s_category}
                         onChange={handleChange}
                         required
                       >
@@ -143,7 +144,7 @@ function Addstocks() {
                         </option>
                         {stockCategories.length > 0 ? (
                           stockCategories.map((category) => (
-                            <option key={category.id} value={category.id}>
+                            <option key={category._id} value={category._id}>
                               {category.name}
                             </option>
                           ))
