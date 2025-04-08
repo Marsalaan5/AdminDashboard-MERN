@@ -1,5 +1,6 @@
 const express = require("express");
 const Stock = require("../models/Stock");
+const Product = require("../models/Products")
 const router = express.Router();
 
 // GET all stocks

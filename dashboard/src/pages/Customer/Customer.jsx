@@ -1,4 +1,5 @@
 
+
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
@@ -8,8 +9,8 @@ function Customer() {
   const [loading, setLoading] = useState(true);
 
   // State for handling the modal and editing
-  const [showEditModal, setShowEditModal] = useState(false); // Edit modal state
-  const [showAddModal, setShowAddModal] = useState(false); // Add modal state
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false); 
   const [editCustomerData, setEditCustomerData] = useState({
     id: '',
     name: '',
@@ -32,6 +33,11 @@ function Customer() {
     total_due: 0,
   });
 
+  // States for total calculations
+  const [totalTransaction, setTotalTransaction] = useState(0);
+  const [totalPaid, setTotalPaid] = useState(0);
+  const [totalDue, setTotalDue] = useState(0);
+
   // Fetch customer data
   useEffect(() => {
     const fetchData = async () => {
@@ -48,55 +54,37 @@ function Customer() {
     fetchData();
   }, []); // Empty dependency array ensures it only runs once on page load
 
+  // Calculate totals
+  useEffect(() => {
+    const calculateTotals = () => {
+      let transaction = 0;
+      let paid = 0;
+      let due = 0;
+
+      customers.forEach((customer) => {
+        transaction += customer.total_buy;
+        paid += customer.total_paid;
+        due += customer.total_due;
+      });
+
+      setTotalTransaction(transaction);
+      setTotalPaid(paid);
+      setTotalDue(due);
+    };
+
+    calculateTotals();
+  }, [customers]); // Recalculate totals whenever customers data changes
+
   // Handle input changes for the edit and add customer form
-  const handleEditChange = (e) => {
+  const handleChange = (e, setData) => {
     const { name, value } = e.target;
-
-    // Calculate total_due automatically if total_buy or total_paid changes
-    if (name === "total_buy" || name === "total_paid") {
-      const newTotalBuy = name === "total_buy" ? value : editCustomerData.total_buy;
-      const newTotalPaid = name === "total_paid" ? value : editCustomerData.total_paid;
-
-      // Calculate the new total_due
-      const newTotalDue = newTotalBuy - newTotalPaid;
-
-      // Update the state with the new values
-      setEditCustomerData((prevData) => ({
-        ...prevData,
-        [name]: value,
-        total_due: newTotalDue, // Automatically update total_due
-      }));
-    } else {
-      setEditCustomerData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
-  };
-
-  const handleAddChange = (e) => {
-    const { name, value } = e.target;
-
-    // Calculate total_due automatically if total_buy or total_paid changes
-    if (name === "total_buy" || name === "total_paid") {
-      const newTotalBuy = name === "total_buy" ? value : newCustomerData.total_buy;
-      const newTotalPaid = name === "total_paid" ? value : newCustomerData.total_paid;
-
-      // Calculate the new total_due
-      const newTotalDue = newTotalBuy - newTotalPaid;
-
-      // Update the state with the new values
-      setNewCustomerData((prevData) => ({
-        ...prevData,
-        [name]: value,
-        total_due: newTotalDue, // Automatically update total_due
-      }));
-    } else {
-      setNewCustomerData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value,
+      ...(name === 'total_buy' || name === 'total_paid') && {
+        total_due: prevData.total_buy - prevData.total_paid,
+      },
+    }));
   };
 
   // Handle form submission for editing customer
@@ -156,14 +144,11 @@ function Customer() {
     }
   };
 
-  
   const handleEditCustomer = (customer) => {
-    console.log("Editing customer:", customer);
     setEditCustomerData(customer); 
     setShowEditModal(true);
   };
 
-  
   const handleAddCustomer = () => {
     setNewCustomerData({
       name: '',
@@ -176,8 +161,7 @@ function Customer() {
     }); 
     setShowAddModal(true); 
   };
-  
-  
+
   const handleCloseModal = () => {
     setShowEditModal(false);
     setShowAddModal(false);
@@ -185,83 +169,69 @@ function Customer() {
 
   return (
     <div className="right-contentDashboard w-98">
-
-<div className="card">
-               <div className="card-body">
-                 <div className="row">
-                 <div className="col-12 col-sm-6 col-md-4">
-                  <div className="info-box bg-danger mb-3">
-                     <div className="info-box-content">
-                      <span className="info-box-text">Total transaction</span>
-                      <span className="info-box-number"> 
-                      19000                        </span>
-                    </div>
-  <span className="info-box-icon "><i className="material-symbols-outlined"></i></span>
-                    {/* <!-- /.info-box-content --> */}
-                  </div>
-                  {/* <!-- /.info-box --> */}
+      <div className="card">
+        <div className="card-body">
+          <div className="row">
+            <div className="col-12 col-sm-6 col-md-4">
+              <div className="info-box bg-danger mb-3">
+                <div className="info-box-content">
+                  <span className="info-box-text">Total transaction</span>
+                  <span className="info-box-number">${totalTransaction}</span>
                 </div>
-
-                 <div className="col-12 col-sm-6 col-md-4">
-                  <div className="info-box bg-success mb-3">
-                    <div className="info-box-content">
-                      <span className="info-box-text">Total paid</span>
-                      <span className="info-box-number"> 
-                        19000                        </span>
-                    </div>
-                    <span className="info-box-icon"><i className="material-symbols-outlined"></i></span>
-                    {/* <!-- /.info-box-content --> */}
-                  </div>
-                  {/* <!-- /.info-box --> */}
-                </div>
-
-                 <div className="col-12 col-sm-6 col-md-4">
-                  <div className="info-box bg-info mb-3">
-              <div className="info-box-content">
-                      <span className="info-box-text">Total due</span>
-                      <span className="info-box-number"> 
-                        0                        </span>
-                    </div>
-
-     <span className="info-box-icon"><i className="material-symbols-outlined">
-</i></span>
-                    {/* <!-- /.info-box-content --> */}
-                  </div>
-                  {/* <!-- /.info-box --> */}
-                </div>
+                <span className="info-box-icon">
+                  <i className="material-symbols-outlined"></i>
+                </span>
               </div>
-       </div>
-     </div>
+            </div>
 
+            <div className="col-12 col-sm-6 col-md-4">
+              <div className="info-box bg-success mb-3">
+                <div className="info-box-content">
+                  <span className="info-box-text">Total paid</span>
+                  <span className="info-box-number">${totalPaid}</span>
+                </div>
+                <span className="info-box-icon">
+                  <i className="material-symbols-outlined"></i>
+                </span>
+              </div>
+            </div>
 
-
-
+            <div className="col-12 col-sm-6 col-md-4">
+              <div className="info-box bg-info mb-3">
+                <div className="info-box-content">
+                  <span className="info-box-text">Total due</span>
+                  <span className="info-box-number">${totalDue}</span>
+                </div>
+                <span className="info-box-icon">
+                  <i className="material-symbols-outlined"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="container-fluid">
-       <div className="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb">
-                 <div>
-                   <h2 className="main-content-title fs-24 mt-4 text-dark">Customer</h2>
-                   <nav aria-label="breadcrumb" className="my-0">
-                     <ol className="breadcrumb mb-0">
-                       <li className="breadcrumb-item"><a href="#" role="button" tabIndex="0">Customer</a></li>
-                       <li className="breadcrumb-item active" aria-current="page">Customer-Details</li>
-                     </ol>
-                   </nav>
-                 </div>
-                 <div className="header_svg d-flex">
-                 <div style={{ marginBottom: '20px', textAlign: 'right' }}>
-        <Button variant="contained" color="primary" onClick={handleAddCustomer}>
-          Add Customer
-        </Button>
-      </div>
-                 </div>
-               </div>
+        <div className="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb">
+          <div>
+            <h2 className="main-content-title fs-24 mt-4 text-dark">Customer</h2>
+            <nav aria-label="breadcrumb" className="my-0">
+              <ol className="breadcrumb mb-0">
+                <li className="breadcrumb-item"><a href="#" role="button">Customer</a></li>
+                <li className="breadcrumb-item active" aria-current="page">Customer-Details</li>
+              </ol>
+            </nav>
+          </div>
+          <div className="header_svg d-flex">
+            <div style={{ marginBottom: '20px', textAlign: 'right' }}>
+              <Button variant="contained" color="primary" onClick={handleAddCustomer}>
+                Add Customer
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
 
-    
-    
-
-      {/* Customer Table Section */}
       <Card className="mt-5">
         <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography variant="h6" component="div">
@@ -314,7 +284,7 @@ function Customer() {
                           size="small"
                           onClick={() => handleDeleteCustomer(customer._id)}
                           style={{ marginLeft: '10px' }}
-                          >
+                        >
                           Delete
                         </Button>
                       </td>
@@ -327,7 +297,8 @@ function Customer() {
         </div>
       </Card>
 
-      {/* Modal for Editing Customer */}
+      {/* Modals (Edit and Add Customer) */}
+      {/* Edit Modal */}
       <Dialog open={showEditModal} onClose={handleCloseModal}>
         <DialogTitle>Edit Customer</DialogTitle>
         <DialogContent>
@@ -335,40 +306,40 @@ function Customer() {
             label="Name"
             name="name"
             value={editCustomerData.name}
-            onChange={handleEditChange}
+            onChange={(e) => handleChange(e, setEditCustomerData)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Company"
             name="company"
             value={editCustomerData.company}
-            onChange={handleEditChange}
+            onChange={(e) => handleChange(e, setEditCustomerData)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Address"
             name="address"
             value={editCustomerData.address}
-            onChange={handleEditChange}
+            onChange={(e) => handleChange(e, setEditCustomerData)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Contact"
             name="contact"
             value={editCustomerData.contact}
-            onChange={handleEditChange}
+            onChange={(e) => handleChange(e, setEditCustomerData)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Total Buy"
             name="total_buy"
             type="number"
             value={editCustomerData.total_buy}
-            onChange={handleEditChange}
+            onChange={(e) => handleChange(e, setEditCustomerData)}
             fullWidth
             margin="normal"
           />
@@ -377,20 +348,20 @@ function Customer() {
             name="total_paid"
             type="number"
             value={editCustomerData.total_paid}
-            onChange={handleEditChange}
+            onChange={(e) => handleChange(e, setEditCustomerData)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Total Due"
             name="total_due"
             type="number"
             value={editCustomerData.total_due}
-            onChange={handleEditChange}
+            onChange={(e) => handleChange(e, setEditCustomerData)}
             fullWidth
             margin="normal"
             disabled
-            />
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseModal} color="secondary">
@@ -402,7 +373,7 @@ function Customer() {
         </DialogActions>
       </Dialog>
 
-      {/* Modal for Adding New Customer */}
+      {/* Add Modal */}
       <Dialog open={showAddModal} onClose={handleCloseModal}>
         <DialogTitle>Add New Customer</DialogTitle>
         <DialogContent>
@@ -410,31 +381,31 @@ function Customer() {
             label="Name"
             name="name"
             value={newCustomerData.name}
-            onChange={handleAddChange}
+            onChange={(e) => handleChange(e, setNewCustomerData)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Company"
             name="company"
             value={newCustomerData.company}
-            onChange={handleAddChange}
+            onChange={(e) => handleChange(e, setNewCustomerData)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Address"
             name="address"
             value={newCustomerData.address}
-            onChange={handleAddChange}
+            onChange={(e) => handleChange(e, setNewCustomerData)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Contact"
             name="contact"
             value={newCustomerData.contact}
-            onChange={handleAddChange}
+            onChange={(e) => handleChange(e, setNewCustomerData)}
             fullWidth
             margin="normal"
           />
@@ -443,29 +414,29 @@ function Customer() {
             name="total_buy"
             type="number"
             value={newCustomerData.total_buy}
-            onChange={handleAddChange}
+            onChange={(e) => handleChange(e, setNewCustomerData)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Total Paid"
             name="total_paid"
             type="number"
             value={newCustomerData.total_paid}
-            onChange={handleAddChange}
+            onChange={(e) => handleChange(e, setNewCustomerData)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Total Due"
             name="total_due"
             type="number"
             value={newCustomerData.total_due}
-            onChange={handleAddChange}
+            onChange={(e) => handleChange(e, setNewCustomerData)}
             fullWidth
             margin="normal"
             disabled
-            />
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseModal} color="secondary">
@@ -476,7 +447,7 @@ function Customer() {
           </Button>
         </DialogActions>
       </Dialog>
-            </div>
+    </div>
   );
 }
 

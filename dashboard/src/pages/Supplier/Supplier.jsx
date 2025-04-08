@@ -1,4 +1,5 @@
 
+
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
@@ -6,9 +7,9 @@ import { Card, Typography, Button, Dialog, DialogActions, DialogContent, DialogT
 function Supplier() {
   const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(true);
-
- 
-  const [showEditModal, setShowEditModal] = useState(false); 
+  const [error, setError] = useState(null);
+  
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editSupplierData, setEditSupplierData] = useState({
     id: '',
@@ -20,8 +21,7 @@ function Supplier() {
     total_paid: 0,
     total_due: 0,
   });
-
- 
+  
   const [newSupplierData, setNewSupplierData] = useState({
     name: '',
     company: '',
@@ -31,79 +31,66 @@ function Supplier() {
     total_paid: 0,
     total_due: 0,
   });
+  
+  const [totalTransaction, setTotalTransaction] = useState(0);
+  const [totalPaid, setTotalPaid] = useState(0);
+  const [totalDue, setTotalDue] = useState(0);
 
- 
+  // Fetch suppliers data and calculate totals
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const suppliersResponse = await axios.get('http://localhost:5000/api/suppliers');
-        setSuppliers(suppliersResponse.data);
+        const response = await axios.get('http://localhost:5000/api/suppliers');
+        setSuppliers(response.data);
+
+        const totalTransaction = response.data.reduce((acc, supplier) => acc + supplier.total_buy, 0);
+        const totalPaid = response.data.reduce((acc, supplier) => acc + supplier.total_paid, 0);
+        const totalDue = totalTransaction - totalPaid;
+
+        setTotalTransaction(totalTransaction);
+        setTotalPaid(totalPaid);
+        setTotalDue(totalDue);
+
         setLoading(false);
       } catch (error) {
-        console.error("There was an error fetching the data!", error);
+        setError("Failed to load suppliers. Please try again later.");
         setLoading(false);
       }
     };
-
     fetchData();
-  }, []); 
+  }, []);
 
-
-  const handleEditChange = (e) => {
+  const handleChange = (e, isEdit = false) => {
     const { name, value } = e.target;
+    const data = isEdit ? editSupplierData : newSupplierData;
 
-  
+    // Recalculate total due based on changes in total_buy or total_paid
     if (name === "total_buy" || name === "total_paid") {
-      const newTotalBuy = name === "total_buy" ? value : editSupplierData.total_buy;
-      const newTotalPaid = name === "total_paid" ? value : editSupplierData.total_paid;
-
-
+      const newTotalBuy = name === "total_buy" ? value : data.total_buy;
+      const newTotalPaid = name === "total_paid" ? value : data.total_paid;
       const newTotalDue = newTotalBuy - newTotalPaid;
 
+      const updatedData = {
+        ...data,
+        [name]: value,
+        total_due: newTotalDue,
+      };
 
-      setEditSupplierData((prevData) => ({
-        ...prevData,
-        [name]: value,
-        total_due: newTotalDue, 
-      }));
+      isEdit ? setEditSupplierData(updatedData) : setNewSupplierData(updatedData);
     } else {
-      setEditSupplierData((prevData) => ({
-        ...prevData,
+      const updatedData = {
+        ...data,
         [name]: value,
-      }));
+      };
+
+      isEdit ? setEditSupplierData(updatedData) : setNewSupplierData(updatedData);
     }
   };
 
-  const handleAddChange = (e) => {
-    const { name, value } = e.target;
-
-  
-    if (name === "total_buy" || name === "total_paid") {
-      const newTotalBuy = name === "total_buy" ? value : newSupplierData.total_buy;
-      const newTotalPaid = name === "total_paid" ? value : newSupplierData.total_paid;
-
-     
-      const newTotalDue = newTotalBuy - newTotalPaid;
-
-
-      setNewSupplierData((prevData) => ({
-        ...prevData,
-        [name]: value,
-        total_due: newTotalDue, 
-      }));
-    } else {
-      setNewSupplierData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
-  };
-
- 
   const handleSubmitEdit = async () => {
     if (!editSupplierData._id) {
-      console.error("supplier ID is missing!");
-      return; 
+      console.error("Supplier ID is missing!");
+      return;
     }
 
     try {
@@ -111,60 +98,42 @@ function Supplier() {
         `http://localhost:5000/api/suppliers/${editSupplierData._id}`,
         editSupplierData
       );
-      console.log("supplier Updated:", response.data);
-
-     
       setSuppliers((prevSuppliers) =>
         prevSuppliers.map((supplier) =>
           supplier._id === editSupplierData._id ? response.data : supplier
         )
       );
-
       setShowEditModal(false);
     } catch (error) {
-      console.error("There was an error updating the supplier!", error);
+      console.error("Error updating supplier!", error);
     }
   };
 
- 
   const handleSubmitAdd = async () => {
     try {
       const response = await axios.post('http://localhost:5000/api/suppliers', newSupplierData);
-      console.log("supplier Added:", response.data);
-
-    
       setSuppliers((prevSupplier) => [...prevSupplier, response.data]);
-
-      setShowAddModal(false); 
+      setShowAddModal(false);
     } catch (error) {
-      console.error("There was an error adding the supplier!", error);
+      console.error("Error adding supplier!", error);
     }
   };
 
- 
-  const handleDeletesupplier = async (id) => {
+  const handleDeleteSupplier = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/api/suppliers/${id}`);
-      console.log("supplier Deleted:", id);
-
-      // Remove the deleted supplier from the suppliers list
-      setSuppliers((prevsuppliers) =>
-        prevsuppliers.filter((supplier) => supplier._id !== id)
-      );
+      setSuppliers((prevSuppliers) => prevSuppliers.filter((supplier) => supplier._id !== id));
     } catch (error) {
-      console.error("There was an error deleting the supplier!", error);
+      console.error("Error deleting supplier!", error);
     }
   };
 
-  
-  const handleEditsupplier = (supplier) => {
-    console.log("Editing supplier:", supplier);
-    setEditSupplierData(supplier); 
+  const handleEditSupplier = (supplier) => {
+    setEditSupplierData(supplier);
     setShowEditModal(true);
   };
 
-  
-  const handleAddsupplier = () => {
+  const handleAddSupplier = () => {
     setNewSupplierData({
       name: '',
       company: '',
@@ -173,11 +142,10 @@ function Supplier() {
       total_buy: 0,
       total_paid: 0,
       total_due: 0,
-    }); 
-    setShowAddModal(true); 
+    });
+    setShowAddModal(true);
   };
-  
-  
+
   const handleCloseModal = () => {
     setShowEditModal(false);
     setShowAddModal(false);
@@ -185,31 +153,62 @@ function Supplier() {
 
   return (
     <div className="right-contentDashboard w-98">
+      <div className="card">
+        <div className="card-body">
+          <div className="row">
+            <div className="col-12 col-sm-6 col-md-4">
+              <div className="info-box bg-danger mb-3">
+                <div className="info-box-content">
+                  <span className="info-box-text">Total transaction</span>
+                  <span className="info-box-number">${totalTransaction}</span>
+                </div>
+                <span className="info-box-icon"><i className="material-symbols-outlined"></i></span>
+              </div>
+            </div>
+
+            <div className="col-12 col-sm-6 col-md-4">
+              <div className="info-box bg-success mb-3">
+                <div className="info-box-content">
+                  <span className="info-box-text">Total paid</span>
+                  <span className="info-box-number">${totalPaid}</span>
+                </div>
+                <span className="info-box-icon"><i className="material-symbols-outlined"></i></span>
+              </div>
+            </div>
+
+            <div className="col-12 col-sm-6 col-md-4">
+              <div className="info-box bg-info mb-3">
+                <div className="info-box-content">
+                  <span className="info-box-text">Total due</span>
+                  <span className="info-box-number">${totalDue}</span>
+                </div>
+                <span className="info-box-icon"><i className="material-symbols-outlined"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="container-fluid">
-       <div className="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb">
-                 <div>
-                   <h2 className="main-content-title fs-24 mt-4 text-dark">Supplier</h2>
-                   <nav aria-label="breadcrumb" className="my-0">
-                     <ol className="breadcrumb mb-0">
-                       <li className="breadcrumb-item"><a href="#" role="button" tabIndex="0">Supplier</a></li>
-                       <li className="breadcrumb-item active" aria-current="page">Supplier-Details</li>
-                     </ol>
-                   </nav>
-                 </div>
-                 <div className="header_svg d-flex">
-                 <div style={{ marginBottom: '20px', textAlign: 'right' }}>
-        <Button variant="contained" color="primary" onClick={handleAddsupplier}>
-          Add Supplier
-        </Button>
-      </div>
-                 </div>
-               </div>
+        <div className="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb">
+          <div>
+            <h2 className="main-content-title fs-24 mt-4 text-dark">Supplier</h2>
+            <nav aria-label="breadcrumb" className="my-0">
+              <ol className="breadcrumb mb-0">
+                <li className="breadcrumb-item"><a href="#" role="button" tabIndex="0">Supplier</a></li>
+                <li className="breadcrumb-item active" aria-current="page">Supplier-Details</li>
+              </ol>
+            </nav>
+          </div>
+          <div className="header_svg d-flex">
+            <Button variant="contained" color="primary" onClick={handleAddSupplier}>
+              Add Supplier
+            </Button>
+          </div>
+        </div>
       </div>
 
-    
-    
-
-      {/* supplier Table Section */}
+      {/* Supplier Table Section */}
       <Card className="mt-5">
         <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography variant="h6" component="div">
@@ -220,6 +219,8 @@ function Supplier() {
         <div className="card-body">
           {loading ? (
             <Typography>Loading suppliers...</Typography>
+          ) : error ? (
+            <Typography color="error">{error}</Typography>
           ) : (
             <div className="table-responsive">
               <table className="table table-striped table-bordered" style={{ width: '100%' }}>
@@ -248,21 +249,10 @@ function Supplier() {
                       <td>${supplier.total_paid}</td>
                       <td>${supplier.total_due}</td>
                       <td>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          size="small"
-                          onClick={() => handleEditsupplier(supplier)}
-                        >
+                        <Button variant="outlined" color="primary" size="small" onClick={() => handleEditSupplier(supplier)}>
                           Edit
                         </Button>
-                        <Button
-                          variant="outlined"
-                          color="secondary"
-                          size="small"
-                          onClick={() => handleDeletesupplier(supplier._id)}
-                          style={{ marginLeft: '10px' }}
-                          >
+                        <Button variant="outlined" color="secondary" size="small" onClick={() => handleDeleteSupplier(supplier._id)} style={{ marginLeft: '10px' }}>
                           Delete
                         </Button>
                       </td>
@@ -277,46 +267,46 @@ function Supplier() {
 
       {/* Modal for Editing supplier */}
       <Dialog open={showEditModal} onClose={handleCloseModal}>
-        <DialogTitle>Edit supplier</DialogTitle>
+        <DialogTitle>Edit Supplier</DialogTitle>
         <DialogContent>
           <TextField
             label="Name"
             name="name"
             value={editSupplierData.name}
-            onChange={handleEditChange}
+            onChange={(e) => handleChange(e, true)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Company"
             name="company"
             value={editSupplierData.company}
-            onChange={handleEditChange}
+            onChange={(e) => handleChange(e, true)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Address"
             name="address"
             value={editSupplierData.address}
-            onChange={handleEditChange}
+            onChange={(e) => handleChange(e, true)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Contact"
             name="contact"
             value={editSupplierData.contact}
-            onChange={handleEditChange}
+            onChange={(e) => handleChange(e, true)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Total Buy"
             name="total_buy"
             type="number"
             value={editSupplierData.total_buy}
-            onChange={handleEditChange}
+            onChange={(e) => handleChange(e, true)}
             fullWidth
             margin="normal"
           />
@@ -325,20 +315,19 @@ function Supplier() {
             name="total_paid"
             type="number"
             value={editSupplierData.total_paid}
-            onChange={handleEditChange}
+            onChange={(e) => handleChange(e, true)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Total Due"
             name="total_due"
             type="number"
             value={editSupplierData.total_due}
-            onChange={handleEditChange}
+            disabled
             fullWidth
             margin="normal"
-            disabled
-            />
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseModal} color="secondary">
@@ -350,39 +339,39 @@ function Supplier() {
         </DialogActions>
       </Dialog>
 
-      {/* Modal for Adding New supplier */}
+      {/* Modal for Adding New Supplier */}
       <Dialog open={showAddModal} onClose={handleCloseModal}>
-        <DialogTitle>Add New supplier</DialogTitle>
+        <DialogTitle>Add New Supplier</DialogTitle>
         <DialogContent>
           <TextField
             label="Name"
             name="name"
             value={newSupplierData.name}
-            onChange={handleAddChange}
+            onChange={(e) => handleChange(e)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Company"
             name="company"
             value={newSupplierData.company}
-            onChange={handleAddChange}
+            onChange={(e) => handleChange(e)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Address"
             name="address"
             value={newSupplierData.address}
-            onChange={handleAddChange}
+            onChange={(e) => handleChange(e)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Contact"
             name="contact"
             value={newSupplierData.contact}
-            onChange={handleAddChange}
+            onChange={(e) => handleChange(e)}
             fullWidth
             margin="normal"
           />
@@ -391,29 +380,28 @@ function Supplier() {
             name="total_buy"
             type="number"
             value={newSupplierData.total_buy}
-            onChange={handleAddChange}
+            onChange={(e) => handleChange(e)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Total Paid"
             name="total_paid"
             type="number"
             value={newSupplierData.total_paid}
-            onChange={handleAddChange}
+            onChange={(e) => handleChange(e)}
             fullWidth
             margin="normal"
-            />
+          />
           <TextField
             label="Total Due"
             name="total_due"
             type="number"
             value={newSupplierData.total_due}
-            onChange={handleAddChange}
+            disabled
             fullWidth
             margin="normal"
-            disabled
-            />
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseModal} color="secondary">
@@ -424,7 +412,7 @@ function Supplier() {
           </Button>
         </DialogActions>
       </Dialog>
-            </div>
+    </div>
   );
 }
 

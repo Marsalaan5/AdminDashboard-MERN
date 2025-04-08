@@ -23,9 +23,11 @@ function Addstocks() {
       .get("http://localhost:5000/api/stock_categories")
       .then((response) => {
         if (response.data.length > 0) {
+          
           setStockCategories(response.data);
         } else {
           setStockCategories([]);
+          console.log("Stock Selected:", response.data);
         }
       })
       .catch((error) => {

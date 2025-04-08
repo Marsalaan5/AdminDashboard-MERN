@@ -1,7 +1,7 @@
 
 
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function Category() {
@@ -10,7 +10,7 @@ function Category() {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [loadingCategory, setLoadingCategory] = useState(false); // To track the loading state for adding category
+  const [loadingCategory, setLoadingCategory] = useState(false); 
 
   // Fetch categories from the backend
   const fetchCategories = async () => {
@@ -37,7 +37,7 @@ function Category() {
 
   const handleModalClose = () => {
     setShowModal(false);
-    setNewCategory({ name: '', description: '' });  // Reset form fields when modal is closed
+    setNewCategory({ name: '', description: '' }); 
   };
 
   // Submit new category
@@ -49,12 +49,12 @@ function Category() {
       return;
     }
 
-    setLoadingCategory(true); // Set loading state to true when submitting category
+    setLoadingCategory(true);
     try {
       await axios.post('http://localhost:5000/api/stock_categories', newCategory);
-      fetchCategories(); // Re-fetch categories
+      fetchCategories();
       setShowModal(false);
-      setNewCategory({ name: '', description: '' });  // Reset the form after successful submission
+      setNewCategory({ name: '', description: '' }); 
     } catch (error) {
       console.error('Error adding category:', error);
       setError('Failed to add category. Please try again.');
@@ -69,7 +69,7 @@ function Category() {
     if (isConfirmed) {
       try {
         await axios.delete(`http://localhost:5000/api/stock_categories/${id}`);
-        fetchCategories(); // Re-fetch categories after deleting
+        fetchCategories();
       } catch (error) {
         console.error('Error deleting category:', error);
         setError('Failed to delete category.');

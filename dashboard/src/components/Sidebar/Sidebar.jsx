@@ -33,21 +33,21 @@ function Sidebar() {
             { label: "Analytics", route: "/analytics" },
             { label: "Sales", route: "/sale/view" },
         ] },
-        { id: 1, label: "Products", icon: <FaProductHunt />, route: "/productlist", submenu: [
+        { id: 1, label: "Products", icon: <FaProductHunt />, submenu: [
             { label: "Product List", route: "/productlist" },
             { label: "Product View", route: "/products_view" },
             { label: "Product Upload", route: "/products_upload" },
         ] },
-        { id: 2, label: "Stocks", icon: <AiOutlineStock />, route: "/stocks", submenu: [
+        { id: 2, label: "Stocks", icon: <AiOutlineStock />, submenu: [
             { label: "Add Stock", route: "/addstocks" },
             { label: "Product List", route: "/product_list" },
         ] },
-        { id: 3, label: "Sells", icon: <MdOutlineSell />, route: "/sells", submenu: [
+        { id: 3, label: "Sells", icon: <MdOutlineSell />, submenu: [
             { label: "New Sell", route: "/newsell" },
             { label: "Sell List", route: "/sell_list" },
             { label: "Sell Return List", route: "/sell_return" },
         ] },
-        { id: 4, label: "Buy", icon: <BsCashCoin />, route: "/buy", submenu: [
+        { id: 4, label: "Buy", icon: <BsCashCoin />, submenu: [
             { label: "New Buy", route: "/newbuy" },
             { label: "Buy List", route: "/buy_list" },
             { label: "Buy Refund List", route: "/buy_refund" },
@@ -59,7 +59,14 @@ function Sidebar() {
         { id: 9, label: "Messages", icon: <IoMdMail />, route: "/messages" },
         { id: 10, label: "Blogs", icon: <IoMdMail />, route: "/blogs" },
         { id: 11, label: "Notifications", icon: <IoNotifications />, route: "/notifications" },
-        { id: 12, label: "Settings", icon: <IoSettingsSharp />, route: "/settings" },
+        { id: 12, label: "Expense", icon: <IoSettingsSharp />, submenu:[
+            { label: "New Expense", route: "/newexpense" },
+            { label: "Expense List", route: "/expense_list" },
+            { label: "Expense Category List", route: "/expense_category_list" },
+        ]},
+        { id: 13, label: "Staff", icon: <IoSettingsSharp />, route: "/staff" },
+        { id: 14, label: "Settings", icon: <IoSettingsSharp />, route: "/settings" },
+     
     ];
 
     return (

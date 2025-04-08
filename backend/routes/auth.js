@@ -5,11 +5,11 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-// const Customer = require('../models/Customer');
-// const Product = require('../models/Products');
-// const Sale = require('../models/Sale');
-// const Category = require('../models/Category');
-// const StockCategory = require('../models/StockCategory');
+const Customer = require('../models/Customer');
+const Product = require('../models/Products');
+const Sale = require('../models/Sale');
+const Category = require('../models/Category');
+const StockCategory = require('../models/StockCategory');
 
 // Register new user
 router.post('/register', async (req, res) => {
@@ -113,27 +113,19 @@ router.post("/sales", async (req, res) => {
 });
 
 
-
 // Backend (API route)
-router.post("/api/stocks", async (req, res) => {
+router.get('/api/stocks/:id', async (req, res) => {
+  console.log("Request for product ID:", req.params.id);  
   try {
-    const { stock_name, brand, s_category, s_source, sku, alert_quantity, buy_price, selling_price } = req.body;
-    
-    const newStock = new Stock({
-      stock_name,
-      brand,
-      s_category,
-      s_source,
-      sku,
-      alert_quantity,
-      buy_price,
-      selling_price
-    });
-    
-    const savedStock = await newStock.save();
-    res.status(201).json(savedStock);
+
+    const product = await Product.findById(req.params.id); 
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+    res.json(product); // Send product data as JSON
   } catch (error) {
-    res.status(500).json({ message: "Error adding stock" });
+    console.error("Error fetching product:", error);
+    res.status(500).json({ error: 'Failed to fetch product details' });
   }
 });
 

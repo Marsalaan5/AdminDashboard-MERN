@@ -27,6 +27,11 @@ import EditProduct from "./pages/Products/EditProduct.jsx";
 import Customer from "./pages/Customer/Customer.jsx";
 import ProductList from "./pages/Stocks/ProductList.jsx";
 import Supplier from "./pages/Supplier/Supplier.jsx";
+import Staff from "./pages/Staff/Staff.jsx";
+// import Expense from "./pages/Expense/Expense.jsx";
+import NewExpense from "./pages/Expense/NewExpense.jsx";
+import ExpenseList from "./pages/Expense/ExpenseList.jsx";
+import ExpenseCategoryList from "./pages/Expense/ExpenseCategoryList.jsx";
 // import EditCustomer from "./pages/Customer/EditCustomer.jsx";
 // import AddCustomer from "./pages/Customer/AddCustomer.jsx";
 
@@ -109,11 +114,18 @@ function App() {
               <Route path="/buy_list" element={<BuyList/>} />
               <Route path="/buy_refund" element={<BuyRefund />} />
 
+
+              <Route path="/newexpense" element={<NewExpense/>} />
+              <Route path="/expense_list" element={<ExpenseList/>} />
+              <Route path="/expense_category_list" element={<ExpenseCategoryList />} />
+
               <Route path="/customers" element={<Customer/>} />
               {/* <Route path="/add_customers" element={<AddCustomer/>} /> */}
               {/* <Route path="/edit_customers" element={<EditCustomer/>} /> */}
 
 
+              <Route path="/suppliers" element={<Supplier/>} />
+              <Route path="/staff" element={<Staff/>} />
               <Route path="/suppliers" element={<Supplier/>} />
 
 
