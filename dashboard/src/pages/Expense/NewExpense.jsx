@@ -144,9 +144,9 @@ function NewExpense() {
                             required
                           >
                             <option value="">Select Category</option>
-                            {expenseCategories.map((category) => (
-                              <option key={category._id} value={category._id}>
-                                {category.name}
+                            {expenseCategories.map((expense) => (
+                              <option key={expense._id} value={expense._id}>
+                                {expense.name}
                               </option>
                             ))}
                           </select>

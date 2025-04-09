@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PUT (update) a stock by ID
+
 router.put("/:id", async (req, res) => {
   try {
     const { stock_name, brand, s_category, s_source, sku, alert_quantity, buy_price, selling_price } = req.body;

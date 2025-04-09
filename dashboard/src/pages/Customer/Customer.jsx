@@ -169,6 +169,27 @@ function Customer() {
 
   return (
     <div className="right-contentDashboard w-98">
+
+<div className="container-fluid">
+        <div className="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb">
+          <div>
+            <h2 className="main-content-title fs-24 mt-4 text-dark">Customer</h2>
+            <nav aria-label="breadcrumb" className="my-0">
+              <ol className="breadcrumb mb-0">
+                <li className="breadcrumb-item"><a href="#" role="button">Customer</a></li>
+                <li className="breadcrumb-item active" aria-current="page">Customer-Details</li>
+              </ol>
+            </nav>
+          </div>
+          <div className="header_svg d-flex">
+            <div style={{ marginBottom: '20px', textAlign: 'right' }}>
+              <Button variant="contained" color="primary" onClick={handleAddCustomer}>
+                Add Customer
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="card">
         <div className="card-body">
           <div className="row">
@@ -211,26 +232,7 @@ function Customer() {
         </div>
       </div>
 
-      <div className="container-fluid">
-        <div className="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb">
-          <div>
-            <h2 className="main-content-title fs-24 mt-4 text-dark">Customer</h2>
-            <nav aria-label="breadcrumb" className="my-0">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item"><a href="#" role="button">Customer</a></li>
-                <li className="breadcrumb-item active" aria-current="page">Customer-Details</li>
-              </ol>
-            </nav>
-          </div>
-          <div className="header_svg d-flex">
-            <div style={{ marginBottom: '20px', textAlign: 'right' }}>
-              <Button variant="contained" color="primary" onClick={handleAddCustomer}>
-                Add Customer
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+ 
 
       <Card className="mt-5">
         <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between' }}>

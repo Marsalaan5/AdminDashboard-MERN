@@ -18,22 +18,22 @@ router.post('/', async (req, res) => {
   try {
     const { name, description } = req.body;
 
-    // Create a new category instance and save it
+   
     const newExpenseCategory = new ExpenseCategory({
       name,
       description,
     });
 
-    const savedExpenseCategory = await newExpenseCategory.save(); // Save to database
+    const savedExpenseCategory = await newExpenseCategory.save(); 
 
-    res.status(201).json(savedExpenseCategory); // Return the saved category
+    res.status(201).json(savedExpenseCategory); 
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: 'Error creating category' }); // Handle errors
+    res.status(400).json({ error: 'Error creating category' }); 
   }
 });
 
-// Delete a category
+
 router.delete('/:id', async (req, res) => {
   try {
     const categoryId = req.params.id;
