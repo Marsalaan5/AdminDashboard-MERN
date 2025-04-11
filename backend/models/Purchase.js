@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
-// Define the Purchase schema
+
 const purchaseSchema = new mongoose.Schema({
   supplierId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Supplier', // Reference to the Supplier model
+    ref: 'Supplier',
     required: true,
   },
   purchaseDate: {
@@ -13,7 +13,7 @@ const purchaseSchema = new mongoose.Schema({
   },
   productId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Product', // Reference to the Product model
+    ref: 'Stock',
     required: true,
   },
   stockQuantity: {
@@ -38,7 +38,7 @@ const purchaseSchema = new mongoose.Schema({
   },
   prevDue: {
     type: Number,
-    default: 0, // Default to 0 if not provided
+    default: 0, 
   },
   netTotal: {
     type: Number,
@@ -54,7 +54,7 @@ const purchaseSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    enum: ['Cash', 'Credit', 'Debit', 'Online'], 
+    // enum: ['Cash', 'Credit', 'Debit', 'Online'], 
     required: true,
   },
 }, { timestamps: true }); 

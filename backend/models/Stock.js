@@ -11,7 +11,7 @@ const stockSchema = new mongoose.Schema({
   },
   s_category: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Category",
+    ref: "StockCategory",
     required: true,
   },
   s_source: {

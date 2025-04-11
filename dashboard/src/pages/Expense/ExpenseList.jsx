@@ -1,7 +1,17 @@
-
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
 function ExpenseList() {
   const [expenses, setExpenses] = useState([]);
@@ -12,13 +22,15 @@ function ExpenseList() {
   const [openModal, setOpenModal] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
 
-
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/expense");
         setExpenses(response.data);
-        const total = response.data.reduce((acc, expense) => acc + expense.expense_amount, 0);
+        const total = response.data.reduce(
+          (acc, expense) => acc + expense.expense_amount,
+          0
+        );
         setTotalExpense(total);
       } catch (err) {
         setError("Failed to fetch expenses");
@@ -31,11 +43,12 @@ function ExpenseList() {
     fetchExpenses();
   }, []);
 
-  
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/expense-categories");
+        const response = await axios.get(
+          "http://localhost:5000/api/expense-categories"
+        );
         setExpenseCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -46,23 +59,34 @@ function ExpenseList() {
   }, []);
 
 
-  const getCategoryName = (categoryId) => {
-    if (!categoryId) return "N/A"; 
-    const category = expenseCategories.find((category) => category._id === categoryId);
+
+  const getCategoryName = (expense_category) => {
+    if (!expense_category) return "N/A";
+  
+    // If s_category is an object, get the id
+    const categoryId = typeof expense_category === "object" ? expense_category._id : expense_category;
+  
+    const category = expenseCategories.find(
+      (category) => String(category._id) === String(categoryId)
+    );
+  
     return category ? category.name : "N/A";
   };
+  
 
   
+
   const formattedTotalExpense = new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD",
+    currency: "INR",
   }).format(totalExpense);
-
 
   const handleDelete = async (expenseId) => {
     try {
       await axios.delete(`http://localhost:5000/api/expense/${expenseId}`);
-      setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense._id !== expenseId));
+      setExpenses((prevExpenses) =>
+        prevExpenses.filter((expense) => expense._id !== expenseId)
+      );
       alert("Expense deleted successfully!");
     } catch (error) {
       console.error("Error deleting expense:", error);
@@ -70,37 +94,37 @@ function ExpenseList() {
     }
   };
 
- 
   const handleEdit = (expenseId) => {
     const expenseToEdit = expenses.find((expense) => expense._id === expenseId);
     setSelectedExpense(expenseToEdit);
     setOpenModal(true);
   };
 
-
   const handleCloseModal = () => {
     setOpenModal(false);
-    setSelectedExpense(null); 
+    setSelectedExpense(null);
   };
 
   const handleUpdate = async () => {
     if (selectedExpense) {
       try {
-        await axios.put(`http://localhost:5000/api/expense/${selectedExpense._id}`, selectedExpense);
+        await axios.put(
+          `http://localhost:5000/api/expense/${selectedExpense._id}`,
+          selectedExpense
+        );
         setExpenses((prevExpenses) =>
-          prevExpenses.map((expense) => 
+          prevExpenses.map((expense) =>
             expense._id === selectedExpense._id ? selectedExpense : expense
           )
         );
         alert("Expense updated successfully!");
-        handleCloseModal(); 
+        handleCloseModal();
       } catch (error) {
         console.error("Error updating expense:", error);
         alert("Error updating expense.");
       }
     }
   };
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -121,38 +145,40 @@ function ExpenseList() {
             <div className="row mb-2">
               <div className="col-sm-6">
                 <h1 className="m-0 text-dark">Expense Categories</h1>
-              <div className="col-sm-6">
-                <ol className="breadcrumb float-sm-right">
-                  <li className="breadcrumb-item">
-                    <a href="#">Home</a>
-                  </li>
-                  <li className="breadcrumb-item active">Expense Category</li>
-                </ol>
-              </div>
+                <div className="col-sm-6">
+                  <ol className="breadcrumb float-sm-right">
+                    <li className="breadcrumb-item">
+                      <a href="#">Expense</a>
+                    </li>
+                    <li className="breadcrumb-item active">Expense List</li>
+                  </ol>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <div className="row">
-            <div className="col-12 col-sm-6 col-md-4">
-              <div className="info-box bg-success">
-                <div className="info-box-content">
-                  <span className="info-box-text">Total Expense</span>
-                  <span className="info-box-number">{formattedTotalExpense}</span>
-                </div>
+          <div className="col-12 col-sm-6 col-md-4">
+            <div className="info-box bg-success">
+              <div className="info-box-content">
+                <span className="info-box-text">Total Expense</span>
+                <span className="info-box-number">{formattedTotalExpense}</span>
               </div>
             </div>
           </div>
-          <div className="container-fluid">
-
+        </div>
+        <div className="container-fluid">
           <div className="card">
             <div className="card-body">
               <div className="card-header">
                 <h3 className="card-title">
                   <b>All Expense Categories</b>
                 </h3>
-                <a href="add-expense" className="btn btn-primary btn-sm float-right rounded-0">
+                <a
+                  href="/newexpense"
+                  className="btn btn-primary btn-sm float-right rounded-0"
+                >
                   Add Expense
                 </a>
               </div>
@@ -175,16 +201,27 @@ function ExpenseList() {
                       {expenses.map((expense, index) => (
                         <tr key={expense._id}>
                           <td>{index + 1}</td>
-                          <td>{new Date(expense.expense_date).toLocaleDateString()}</td>
+                          <td>
+                            {new Date(
+                              expense.expense_date
+                            ).toLocaleDateString()}
+                          </td>
                           <td>{expense.expense_for}</td>
                           <td>{expense.expense_amount}</td>
-                          <td>{getCategoryName(expense.expense_category)}</td>
+                          {/* <td>{getCategoryName(expense.expense_category)}</td> */}
+                          <td>{expenseCategories.length ? getCategoryName(expense.expense_category) : "Loading..."}</td>
                           <td>{expense.exp_descrip}</td>
                           <td>
-                            <button className="btn btn-warning btn-sm" onClick={() => handleEdit(expense._id)}>
+                            <button
+                              className="btn btn-warning btn-sm"
+                              onClick={() => handleEdit(expense._id)}
+                            >
                               Edit
                             </button>
-                            <button className="btn btn-danger btn-sm ml-2" onClick={() => handleDelete(expense._id)}>
+                            <button
+                              className="btn btn-danger btn-sm ml-2"
+                              onClick={() => handleDelete(expense._id)}
+                            >
                               Delete
                             </button>
                           </td>
@@ -196,9 +233,8 @@ function ExpenseList() {
               </div>
             </div>
           </div>
-                </div>
-          </section>
-        
+        </div>
+      </section>
 
       {/* Modal for editing expense */}
       <Dialog open={openModal} onClose={handleCloseModal}>
@@ -214,7 +250,7 @@ function ExpenseList() {
                 value={selectedExpense.expense_for}
                 onChange={handleChange}
                 margin="normal"
-                />
+              />
               <TextField
                 label="Expense Amount"
                 variant="outlined"
@@ -230,7 +266,7 @@ function ExpenseList() {
                 <Select
                   label="Expense Category"
                   name="expense_category"
-                  value={selectedExpense.expense_category || ''}
+                  value={selectedExpense.expense_category || ""}
                   onChange={handleChange}
                 >
                   {expenseCategories.map((category) => (
@@ -266,4 +302,3 @@ function ExpenseList() {
 }
 
 export default ExpenseList;
-

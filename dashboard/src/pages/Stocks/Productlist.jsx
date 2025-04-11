@@ -19,25 +19,25 @@ import {
 function ProductList() {
   const [stocks, setStocks] = useState([]);
   const [stockCategories, setStockCategories] = useState([]);
-  const [openModal, setOpenModal] = useState(false); // State to handle modal visibility
-  const [selectedProduct, setSelectedProduct] = useState(null); // State for selected product for editing
+  const [openModal, setOpenModal] = useState(false); 
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch products
     axios
       .get("http://localhost:5000/api/stocks")
       .then((response) => {
+        console.log("stocks response.data",response.data);
         setStocks(response.data);
       })
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
   useEffect(() => {
-    // Fetch categories
-    axios
+     axios
       .get("http://localhost:5000/api/stock_categories")
       .then((response) => {
+        console.log("Stock categories loaded:", response.data); 
         setStockCategories(response.data);
       })
       .catch((error) => {
@@ -45,21 +45,22 @@ function ProductList() {
       });
   }, []);
 
-
-  const getCategoryName = (categoryId) => {
-    if (!categoryId) return "N/A"; 
-
-    const category = stockCategories.find((category) => category._id === categoryId);
-
-    // If no category is found, return N/A
-    if (!category) {
-      console.warn(`Category not found for ID: ${categoryId}`);
-      return "N/A";
-    }
-
-    return category.name; // Return the category name if found
+  
+  const getCategoryName = (s_category) => {
+    if (!s_category) return "N/A";
+  
+    // If s_category is an object, get the id
+    const categoryId = typeof s_category === "object" ? s_category._id : s_category;
+  
+    const category = stockCategories.find(
+      (category) => String(category._id) === String(categoryId)
+    );
+  
+    return category ? category.name : "N/A";
   };
-
+  
+  
+  
   const handleDelete = (productId) => {
     axios
       .delete(`http://localhost:5000/api/stocks/${productId}`)
@@ -75,13 +76,17 @@ function ProductList() {
 
   const handleEdit = (productId) => {
     const productToEdit = stocks.find((product) => product._id === productId);
-    setSelectedProduct(productToEdit); // Set the selected product for editing
-    setOpenModal(true); // Open the modal
+    console.log('Editing product:', productToEdit); 
+    if (productToEdit) {
+      setSelectedProduct({ ...productToEdit });
+      setOpenModal(true);
+    }
   };
+  
 
   const handleCloseModal = () => {
     setOpenModal(false);
-    setSelectedProduct(null); // Clear the selected product
+    setSelectedProduct(null);
   };
 
   const handleUpdate = () => {
@@ -95,8 +100,17 @@ function ProductList() {
             )
           );
           alert("Product updated successfully!");
-          handleCloseModal(); // Close the modal after successful update
-        })
+          handleCloseModal();
+
+          axios.get("http://localhost:5000/api/stock_categories")
+          .then((response) => {
+            setStockCategories(response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching categories:", error);
+          });
+      })
+      
         .catch((error) => {
           console.error("Error updating product:", error);
           alert("Error updating product.");
@@ -153,11 +167,14 @@ function ProductList() {
                           <td>{index + 1}</td>
                           <td>{product.stock_name}</td>
                           <td>{product.brand}</td>
-                          <td>{getCategoryName(product.s_category)}</td>
+                          {/* <td>{getCategoryName(product.s_category)}</td> */}
+                          <td>{stockCategories.length ? getCategoryName(product.s_category) : "Loading..."}</td>
+                          
+
                           <td>{product.s_source}</td>
                           <td>{product.alert_quantity}</td>
-                          <td>${product.buy_price}</td>
-                          <td>${product.selling_price}</td>
+                          <td>₹ {product.buy_price}</td>
+                          <td>₹ {product.selling_price}</td>
                           <td>
                             <button
                               className="btn btn-sm btn-warning"
@@ -212,20 +229,21 @@ function ProductList() {
                 margin="normal"
               />
               <FormControl fullWidth variant="outlined" margin="normal">
-                <InputLabel>Category</InputLabel>
-                <Select
-                  label="Category"
-                  name="s_category"
-                  value={selectedProduct.s_category || ''}
-                  onChange={handleChange}
-                >
-                  {stockCategories.map((category) => (
-                    <MenuItem key={category._id} value={category._id}>
-                      {category.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+  <InputLabel>Category</InputLabel>
+  <Select
+    label="Category"
+    name="s_category"
+    value={selectedProduct.s_category || ''}
+    onChange={handleChange}
+  >
+    {stockCategories.map((category) => (
+      <MenuItem key={category._id} value={category._id}>
+        {category.name}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
+
               <TextField
                 label="Source"
                 variant="outlined"
@@ -282,3 +300,7 @@ function ProductList() {
 }
 
 export default ProductList;
+
+
+
+

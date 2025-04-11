@@ -52,46 +52,54 @@ function Customer() {
     };
 
     fetchData();
-  }, []); // Empty dependency array ensures it only runs once on page load
+  }, []);
 
-  // Calculate totals
   useEffect(() => {
     const calculateTotals = () => {
       let transaction = 0;
       let paid = 0;
       let due = 0;
-
+  
       customers.forEach((customer) => {
         transaction += customer.total_buy;
         paid += customer.total_paid;
         due += customer.total_due;
       });
-
+  
       setTotalTransaction(transaction);
       setTotalPaid(paid);
       setTotalDue(due);
     };
-
+  
     calculateTotals();
-  }, [customers]); // Recalculate totals whenever customers data changes
+  }, [customers]);
+  
 
-  // Handle input changes for the edit and add customer form
   const handleChange = (e, setData) => {
     const { name, value } = e.target;
-    setData((prevData) => ({
-      ...prevData,
-      [name]: value,
-      ...(name === 'total_buy' || name === 'total_paid') && {
-        total_due: prevData.total_buy - prevData.total_paid,
-      },
-    }));
+    setData((prevData) => {
+      const updatedData = {
+        ...prevData,
+        [name]: value,
+      };
+  
+     
+      if (name === 'total_buy' || name === 'total_paid') {
+        updatedData.total_due = parseFloat(updatedData.total_buy) - parseFloat(updatedData.total_paid);
+      }
+  
+      return updatedData;
+    });
   };
 
-  // Handle form submission for editing customer
+  
+  
+
+  
   const handleSubmitEdit = async () => {
     if (!editCustomerData._id) {
       console.error("Customer ID is missing!");
-      return; // Prevent submission if id is undefined or missing
+      return; 
     }
 
     try {
@@ -101,7 +109,7 @@ function Customer() {
       );
       console.log("Customer Updated:", response.data);
 
-      // Update the customers list after successful update
+    
       setCustomers((prevCustomers) =>
         prevCustomers.map((customer) =>
           customer._id === editCustomerData._id ? response.data : customer
@@ -114,28 +122,28 @@ function Customer() {
     }
   };
 
-  // Handle form submission for adding a new customer
+ 
   const handleSubmitAdd = async () => {
     try {
       const response = await axios.post('http://localhost:5000/api/customers', newCustomerData);
       console.log("Customer Added:", response.data);
 
-      // Update the customers list after successful addition
+     
       setCustomers((prevCustomers) => [...prevCustomers, response.data]);
 
-      setShowAddModal(false); // Close the modal
+      setShowAddModal(false); 
     } catch (error) {
       console.error("There was an error adding the customer!", error);
     }
   };
 
-  // Handle deleting a customer
+  
   const handleDeleteCustomer = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/api/customers/${id}`);
       console.log("Customer Deleted:", id);
 
-      // Remove the deleted customer from the customers list
+      
       setCustomers((prevCustomers) =>
         prevCustomers.filter((customer) => customer._id !== id)
       );

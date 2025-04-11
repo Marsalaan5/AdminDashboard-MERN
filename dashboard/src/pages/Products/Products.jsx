@@ -191,43 +191,49 @@ function Products() {
           {loading && <div>Loading products...</div>}
           {error && <div className="alert alert-danger">{error}</div>}
 
-          {filteredProducts.map((product) => (
-            <div key={product._id} className="col-md-3 mb-4">
-              <div className="card">
-                <img
-                  src={product.image}
-                  className="card-img-top"
-                  alt={product.name}
-                  style={{ height: '200px', objectFit: 'cover' }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{product.name}</h5>
-                  <h5 className="card-title">{product.category}</h5>
-                  <p className="card-text">{product.description}</p>
-                  <div className="d-flex justify-content-between">
-                    <span>${product.price}</span>
-                    <span>{'★'.repeat(product.rating)}</span>
-                   
+          {filteredProducts.map((product) => {
+  console.log('Rating for product:', product.name, '-', product.rating, '| Type:', typeof product.rating);
+  
+  return (
+    <div key={product._id} className="col-md-3 mb-4">
+      <div className="card">
+        <img
+          src={`http://localhost:5000/uploads/${product.image}`}
+          className="card-img-top"
+          alt={product.name}
+          style={{ height: '200px', objectFit: 'contain' }}
+        />
+        <div className="card-body">
+          <h5 className="card-title">{product.name}</h5>
+          <h5 className="card-title">{product.category}</h5>
+          <p className="card-text">{product.description}</p>
+          <div className="d-flex justify-content-between">
+            <span>₹ {product.price}</span>
+            <span>
+              {''.repeat(Number(product.rating) || 0)}
+              {'★'.repeat(5 - (Number(product.rating) || 0))}
+            </span>
+          </div>
+          <div className="d-flex justify-content-between mt-3">
+            <button 
+              className="btn btn-warning btn-sm"
+              onClick={() => handleEdit(product._id)}
+            >
+              Edit
+            </button>
+            <button
+              className="btn btn-danger btn-sm"
+              onClick={() => handleDelete(product._id)}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+})}
 
-                  </div>
-                  <div className="d-flex justify-content-between mt-3">
-                    <button 
-                      className="btn btn-warning btn-sm"
-                      onClick={() => handleEdit(product._id)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(product._id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </div>

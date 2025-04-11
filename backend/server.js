@@ -30,6 +30,7 @@ const stockRoutes = require("./routes/stock.js");
 const customerRoutes = require("./routes/customer.js"); 
 const supplierRoutes = require("./routes/supplier.js"); 
 const purchaseRoutes = require("./routes/purchase.js"); 
+// const paymentMethodRoutes = require("./routes/paymentMethod.js"); 
 
 const app = express()
 
@@ -49,6 +50,7 @@ app.use("/api/stocks", stockRoutes);
 app.use('/api/suppliers', supplierRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/purchase', purchaseRoutes);
+// app.use('/api/payment-methods', paymentMethodRoutes);
  
 app.use('/api/stock_categories', stockCategoryRoutes); 
 app.use('/api/categories', categoryRoutes); 
@@ -56,6 +58,7 @@ app.use('/api/products', productRoutes);
 app.use('/auth',authRoutes)
 
 
+// const PaymentMethod = require("./models/PaymentMethod.js");
 const Purchase = require("./models/Purchase.js");
 const Supplier = require("./models/Supplier.js");
 const Customer = require("./models/Customer.js");

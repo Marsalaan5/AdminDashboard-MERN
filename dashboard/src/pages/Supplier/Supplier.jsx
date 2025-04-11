@@ -153,6 +153,26 @@ function Supplier() {
 
   return (
     <div className="right-contentDashboard w-98">
+
+<div className="container-fluid">
+        <div className="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb">
+          <div>
+            <h2 className="main-content-title fs-24 mt-4 text-dark">Supplier</h2>
+            <nav aria-label="breadcrumb" className="my-0">
+              <ol className="breadcrumb mb-0">
+                <li className="breadcrumb-item"><a href="#" role="button" tabIndex="0">Supplier</a></li>
+                <li className="breadcrumb-item active" aria-current="page">Supplier-Details</li>
+              </ol>
+            </nav>
+          </div>
+          <div className="header_svg d-flex">
+            <Button variant="contained" color="primary" onClick={handleAddSupplier}>
+              Add Supplier
+            </Button>
+          </div>
+        </div>
+      </div>
+
       <div className="card">
         <div className="card-body">
           <div className="row">
@@ -185,25 +205,6 @@ function Supplier() {
                 <span className="info-box-icon"><i className="material-symbols-outlined"></i></span>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="container-fluid">
-        <div className="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb">
-          <div>
-            <h2 className="main-content-title fs-24 mt-4 text-dark">Supplier</h2>
-            <nav aria-label="breadcrumb" className="my-0">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item"><a href="#" role="button" tabIndex="0">Supplier</a></li>
-                <li className="breadcrumb-item active" aria-current="page">Supplier-Details</li>
-              </ol>
-            </nav>
-          </div>
-          <div className="header_svg d-flex">
-            <Button variant="contained" color="primary" onClick={handleAddSupplier}>
-              Add Supplier
-            </Button>
           </div>
         </div>
       </div>

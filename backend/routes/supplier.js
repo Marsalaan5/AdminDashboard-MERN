@@ -3,7 +3,7 @@ const Supplier = require('../models/Supplier'); // Make sure to use Supplier her
 const router = express.Router();
 const mongoose = require("mongoose");
 
-// Get all suppliers
+
 router.get('/', async (req, res) => {
   try {
     const suppliers = await Supplier.find();

@@ -14,7 +14,22 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST a new stock
+
+router.get("/:id", async (req, res) => {
+  try {
+    const stock = await Stock.findById(req.params.id).populate("s_category");
+    if (!stock) {
+      return res.status(404).json({ message: "Stock not found" });
+    }
+    res.json(stock);
+  } catch (error) {
+    console.error("Error fetching stock by ID:", error);
+    res.status(500).json({ message: "Error fetching stock by ID" });
+  }
+});
+
+
+
 router.post("/", async (req, res) => {
   try {
     const { stock_name, brand, s_category, s_source, sku, alert_quantity, buy_price, selling_price } = req.body;

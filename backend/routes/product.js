@@ -3,7 +3,7 @@ const Product = require('../models/Products');
 const multer = require('multer');
 const path = require('path');
 
-// Create a new router
+
 const router = express.Router();
 
 
@@ -23,13 +23,12 @@ const upload = multer({
   },
 });
 
-// 1. Add a new product
 router.post('/', upload.single('image'), async (req, res) => {
   try {
     const { name, category, price, description} = req.body;
     const image = req.file ? req.file.filename : null; 
 
-    // Create a new product
+ 
     const newProduct = new Product({
       name,
       category,
@@ -46,7 +45,7 @@ router.post('/', upload.single('image'), async (req, res) => {
   }
 });
 
-// 2. Get all products
+
 router.get('/', async (req, res) => {
   try {
     const products = await Product.find(); 
@@ -56,7 +55,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// 3. Get a single product by ID
+
 router.get('/:id', async (req, res) => {
   try {
     const product = await Product.findById(req.params.id); 

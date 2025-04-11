@@ -1,16 +1,40 @@
+
 const express = require('express');
 const Purchase = require('../models/Purchase');
-const Product = require('../models/Products'); // Import Product model
+const Product = require('../models/Products'); 
+const Supplier = require('../models/Supplier');
 const router = express.Router();
 
-// Purchase a product
-router.post('/api/purchase', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
-    const { supplierId, purchaseDate, productId, stockQuantity, buyPrice, purchaseQuantity, sellPrice, subtotal, prevDue, netTotal, paidBill, dueBill, paymentMethod } = req.body;
+    const {
+      supplierName, 
+      purchaseDate,
+      productId,
+      stockQuantity,
+      buyPrice,
+      purchaseQuantity,
+      sellPrice,
+      subtotal,
+      prevDue,
+      netTotal,
+      paidBill,
+      dueBill,
+      paymentMethod
+    } = req.body;
 
-    // Create a new purchase entry
+    
+    const supplier = await Supplier.findOne({ name: supplierName });
+    
+    if (!supplier) {
+      return res.status(404).json({ error: 'Supplier not found' });
+    }
+
+    const supplierId = supplier._id; 
+
+   
     const purchase = new Purchase({
-      supplierId,
+      supplierId, 
       purchaseDate,
       productId,
       stockQuantity,
@@ -27,13 +51,12 @@ router.post('/api/purchase', async (req, res) => {
 
     await purchase.save();
 
-    // Update product stock after purchase
+   
     const product = await Product.findById(productId);
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
 
-    // Update the stock quantity after purchase
     product.stock_quantity -= purchaseQuantity;
 
     if (product.stock_quantity < 0) {

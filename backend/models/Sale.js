@@ -12,10 +12,10 @@ orderDate:{
 },
 products:[
     {
-        product:{
+        productId:{
             type:mongoose.Schema.Types.ObjectId,
-            ref:"Product",
-            required:"true",
+            ref:"Stock",
+            required:true,
         },
         quantity: {
             type: Number,

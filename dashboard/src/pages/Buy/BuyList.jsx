@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 function BuyList() {
   const [data, setData] = useState({
@@ -26,7 +26,7 @@ function BuyList() {
 
   return (
     <div className="right-contentDashboard w-98">
-      <section className="content">
+      <section >
         <div className="container-fluid">
           <div className="card">
             <div className="card-body">
@@ -39,9 +39,7 @@ function BuyList() {
                         <span className="info-box-text">Total Total Sell</span>
                         <span className="info-box-number">{data.totalSell}</span>
                       </div>
-                      <span className="info-box-icon">
-                        <i className="material-symbols-outlined">sell</i>
-                      </span>
+                      
                     </div>
                   </div>
 
@@ -52,9 +50,7 @@ function BuyList() {
                         <span className="info-box-text">Total Paid Amount</span>
                         <span className="info-box-number">{data.totalPaid}</span>
                       </div>
-                      <span className="info-box-icon">
-                        <i className="material-symbols-outlined">paid</i>
-                      </span>
+                     
                     </div>
                   </div>
 
@@ -65,9 +61,7 @@ function BuyList() {
                         <span className="info-box-text">Total Due Amount</span>
                         <span className="info-box-number">{data.totalDue}</span>
                       </div>
-                      <span className="info-box-icon">
-                        <i className="material-symbols-outlined">money</i>
-                      </span>
+                      
                     </div>
                   </div>
                 </div>

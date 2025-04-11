@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    trim: true, // Automatically trims spaces from the start and end
+    trim: true, 
   },
   category: {
     type: String,
@@ -16,17 +16,23 @@ const productSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
-    min: 0, // Price cannot be negative
+    min: 0,
   },
   description: {
     type: String,
     required: true,
-    trim: true, // Trims leading and trailing spaces
+    trim: true,
   },
   image: {
     type: String,
-    default: null, // Default to null if no image is uploaded
+    default: null,
   },
+  rating: {
+    type: Number,
+    required: true,
+    default: 0,
+  }
+  
 
 });
 

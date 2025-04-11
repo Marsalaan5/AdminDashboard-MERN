@@ -44,7 +44,7 @@ function SellList() {
                         <span className="info-box-text">Total Sell</span>
                         <span className="info-box-number">{sellData.totalSell}</span>
                       </div>
-                      <span className="info-box-icon"><i className="material-symbols-outlined">sell</i></span>
+                    
                     </div>
                   </div>
 
@@ -54,7 +54,7 @@ function SellList() {
                         <span className="info-box-text">Total Paid Amount</span>
                         <span className="info-box-number">{sellData.totalPaid}</span>
                       </div>
-                      <span className="info-box-icon"><i className="material-symbols-outlined">payments</i></span>
+                    
                     </div>
                   </div>
 
@@ -64,7 +64,7 @@ function SellList() {
                         <span className="info-box-text">Total Due Amount</span>
                         <span className="info-box-number">{sellData.totalDue}</span>
                       </div>
-                      <span className="info-box-icon"><i className="material-symbols-outlined">currency_rupee</i></span>
+                     
                     </div>
                   </div>
                 </div>
