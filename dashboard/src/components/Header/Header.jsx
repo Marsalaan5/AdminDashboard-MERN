@@ -154,9 +154,15 @@ function Header() {
                   open={Boolean(anchorEl)}
                   onClose={() => handleCloseMenu(setAnchorEl)}
                 >
-                  <MenuItem onClick={() => handleCloseMenu(setAnchorEl)}>
-                    <Avatar /> Profile
-                  </MenuItem>
+                
+                <MenuItem onClick={() => {
+  handleCloseMenu(setAnchorEl);
+  navigate('/profile');   
+}}>
+  <Avatar /> Profile
+</MenuItem>
+                 
+                 
                   <MenuItem onClick={() => handleCloseMenu(setAnchorEl)}>
                     <Avatar /> My account
                   </MenuItem>

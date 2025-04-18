@@ -15,13 +15,13 @@ function Login() {
   const navigate = useNavigate();
   const context = useContext(MyContext);
 
-  // Hide Sidebar & Header on login page, restore after leaving
+
   useEffect(() => {
     context.setIsHideSidebarAndHeader(true); 
     return () => context.setIsHideSidebarAndHeader(false);
   }, [context]);
 
-  // Check if already logged in, redirect to homepage
+ 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLogin");
     if (isLoggedIn) {
@@ -59,6 +59,40 @@ function Login() {
   //   }
   // };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   setErrorMessage("");
+  
+  //   try {
+  //     const response = await axios.post("http://localhost:5000/auth/login", { email, password });
+  
+  //     console.log("Raw API Response:", response);
+  
+     
+  //     if (!response.data || !response.data.result || !response.data.token) {
+  //       throw new Error("User data or token is missing in the response");
+  //     }
+  
+    
+  //     localStorage.setItem("token", response.data.token);
+  //     localStorage.setItem("isLogin", "true");
+  //     localStorage.setItem("user", JSON.stringify(response.data.result)); // Use `result` instead of `user`
+  
+    
+  //     context.setIsLogin(true);
+  //     context.setUser(response.data.result);
+  
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.error("Login Error:", error);
+  //     setErrorMessage(error?.response?.data?.msg || "Something went wrong, please try again.");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -67,23 +101,28 @@ function Login() {
     try {
       const response = await axios.post("http://localhost:5000/auth/login", { email, password });
   
-      console.log("Raw API Response:", response);
-  
-      // ✅ Ensure the response contains user data and token
       if (!response.data || !response.data.result || !response.data.token) {
         throw new Error("User data or token is missing in the response");
       }
   
-      // ✅ Store user details properly
+      const user = response.data.result;
+  
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("isLogin", "true");
-      localStorage.setItem("user", JSON.stringify(response.data.result)); // Use `result` instead of `user`
+      localStorage.setItem("user", JSON.stringify(user));
   
-      // ✅ Update Context API state
       context.setIsLogin(true);
-      context.setUser(response.data.result);
+      context.setUser(user);
   
-      navigate("/");
+   
+      if (user.role === "admin") {
+        navigate("/dashboard");
+      } else if (user.role === "user") {
+        navigate("/products_view");
+      } else {
+        navigate("/"); 
+      }
+  
     } catch (error) {
       console.error("Login Error:", error);
       setErrorMessage(error?.response?.data?.msg || "Something went wrong, please try again.");
@@ -91,7 +130,6 @@ function Login() {
       setIsLoading(false);
     }
   };
-  
   
   
   return (

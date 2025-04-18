@@ -16,11 +16,16 @@ import { BsCashCoin } from "react-icons/bs";
 import { MdCategory } from "react-icons/md";
 import { MdPerson } from "react-icons/md";
 
+import { getUserRole } from "../../utils/auth.js"
+
+
 function Sidebar() {
     const [activeTab, setActiveTab] = useState(null);
     const [isToggleSubmenu, setIsToggleSubmenu] = useState(false);
 
     const context = useContext(MyContext);
+    const userRole = getUserRole();
+
 
     const handleSubmenuToggle = (index) => {
         setActiveTab(index);
@@ -29,7 +34,7 @@ function Sidebar() {
 
     // Define sidebar menu items with corresponding routes
     const menuItems = [
-        { id: 0, label: "Dashboard", icon: <MdDashboard />, route: "/dashboard",submenu: [
+        { id: 0, label: "Dashboard", icon: <MdDashboard />, route: "/dashboard", submenu: [
             { label: "Analytics", route: "/analytics" },
             { label: "Sales", route: "/sale/view" },
         ] },
@@ -63,11 +68,13 @@ function Sidebar() {
             { label: "New Expense", route: "/newexpense" },
             { label: "Expense List", route: "/expense_list" },
             { label: "Expense Category List", route: "/expense_category_list" },
-        ]},
+        ] },
         { id: 13, label: "Staff", icon: <IoSettingsSharp />, route: "/staff" },
-        { id: 14, label: "Settings", icon: <IoSettingsSharp />, route: "/settings" },
-     
+        ...(userRole === "admin" ? [
+            { id: 14, label: "Settings", icon: <IoSettingsSharp />, route: "/settings" },
+        ] : [])
     ];
+    
 
     return (
         <>
@@ -100,14 +107,18 @@ function Sidebar() {
                 </ul>
 
                 <br />
-                <div className="logoutWrapper">
-                    <div className="logoutBox">
-                        <Button className="btn" variant='contained'>
-                            <FiLogOut />
-                            Logout
-                        </Button>
-                    </div>
-                </div>
+                
+{context?.user && (
+    <div className="logoutWrapper">
+        <div className="logoutBox">
+            <Button className="btn" variant='contained' onClick={context.logout}>
+                <FiLogOut />
+                Logout
+            </Button>
+        </div>
+    </div>
+)}
+
             </div>
         </>
     );

@@ -1,5 +1,4 @@
 
-
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
@@ -10,6 +9,7 @@ const Product = require('../models/Products');
 const Sale = require('../models/Sale');
 const Category = require('../models/Category');
 const StockCategory = require('../models/StockCategory');
+
 
 // Register new user
 router.post('/register', async (req, res) => {
@@ -300,4 +300,5 @@ router.post('/api/suppliers', async (req, res) => {
       return res.status(500).json({ message: "Failed to add supplier, please try again" });
   }
 });
+
 module.exports = router;

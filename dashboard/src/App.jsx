@@ -3,6 +3,9 @@ import "./App.css";
 import "./Responsive.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import PrivateRoute from "./components/Routes/PrivateRoute.jsx";
+import AdminRoute from "./components/Routes/AdminRoute.jsx";
+
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header/Header.jsx";
@@ -32,6 +35,7 @@ import Staff from "./pages/Staff/Staff.jsx";
 import NewExpense from "./pages/Expense/NewExpense.jsx";
 import ExpenseList from "./pages/Expense/ExpenseList.jsx";
 import ExpenseCategoryList from "./pages/Expense/ExpenseCategoryList.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
 // import EditCustomer from "./pages/Customer/EditCustomer.jsx";
 // import AddCustomer from "./pages/Customer/AddCustomer.jsx";
 
@@ -101,16 +105,36 @@ function App() {
 
           <div className={`content ${isToggleSidebar ? "toggle" : ""}`}>
             <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+
+
+
+  {/* Public */}
+  <Route path="/login" element={<Login />} />
+  <Route path="/register" element={<Register />} />
+
+  {/* Private Routes */}
+  <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>}/>
+
+  <Route path="/products_upload"element={<PrivateRoute><AddProduct /> </PrivateRoute>}/>
+
+  {/* Admin-Only Routes */}
+  <Route path="/staff" element={<Staff />}/>
+
+  <Route path="/newbuy" element={ <AdminRoute> <NewBuy /></AdminRoute>}/>
+
+
+
+
+              {/* <Route path="/" element={<Dashboard />} /> */}
+              {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+              {/* <Route path="/login" element={<Login />} /> */}
+              {/* <Route path="/register" element={<Register />} /> */}
 
               <Route path="/newsell" element={<Newsell />} />
               <Route path="/sell_list" element={<SellList />} />
               <Route path="/sell_return" element={<Sellreturn />} />
 
-              <Route path="/newbuy" element={<NewBuy />} />
+              {/* <Route path="/newbuy" element={<NewBuy />} /> */}
               <Route path="/buy_list" element={<BuyList/>} />
               <Route path="/buy_refund" element={<BuyRefund />} />
 
@@ -125,7 +149,7 @@ function App() {
 
 
               <Route path="/suppliers" element={<Supplier/>} />
-              <Route path="/staff" element={<Staff/>} />
+              {/* <Route path="/staff" element={<Staff/>} /> */}
               <Route path="/suppliers" element={<Supplier/>} />
 
 
@@ -133,10 +157,16 @@ function App() {
               <Route path="/addstocks" element={<Addstocks />} />
               <Route path="/product_list" element={<ProductList />} />
 
-              <Route path="/products_upload" element={<AddProduct/>} />
+              {/* <Route path="/products_upload" element={<AddProduct/>} /> */}
               <Route path="/edit-product/:productId" element={<EditProduct/>} />
               <Route path="/products_view" element={<ProductDetail/>} />
               <Route path="/productlist" element={<Products />} />
+
+
+              <Route path="/profile" element={<Profile />} />
+
+
+             
 
             </Routes>
           </div>
