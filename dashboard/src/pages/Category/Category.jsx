@@ -1,8 +1,9 @@
 
 
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { MyContext } from '../../context/Context';
 
 function Category() {
   const [stockCategories, setStockCategories] = useState([]);
@@ -11,6 +12,7 @@ function Category() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [loadingCategory, setLoadingCategory] = useState(false); 
+  const {user} =useContext(MyContext)
 
   // Fetch categories from the backend
   const fetchCategories = async () => {
@@ -92,13 +94,17 @@ function Category() {
           <div className="card">
             <div className="card-header">
               <h3 className="card-title"><b>Categories</b></h3>
-              <button
+              {user?.role === "admin" && (
+                        <> 
+                        <button
                 type="button"
                 className="btn btn-primary btn-sm float-right rounded-0"
                 onClick={() => setShowModal(true)}
               >
                 <i className="fas fa-plus"></i> Add Category
               </button>
+            </>
+              )}
             </div>
 
             <div className="card-body">
@@ -122,12 +128,15 @@ function Category() {
                           <td>{category.name}</td>
                           <td>{category.description}</td>
                           <td>
-                            <button
+                          {user?.role === "admin" && (
+                        <>
+                         <button
                               className="btn btn-danger btn-sm"
                               onClick={() => handleDelete(category._id)}
-                            >
+                              >
                               Delete
                             </button>
+                              </>)}
                           </td>
                         </tr>
                       ))}

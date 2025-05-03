@@ -1,10 +1,14 @@
 
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Card, Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { MyContext } from '../../context/Context';
+// import User from '../../../../backend/models/User';
+
 
 function Supplier() {
+  const {user} = useContext(MyContext)
   const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +16,7 @@ function Supplier() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editSupplierData, setEditSupplierData] = useState({
-    id: '',
+    _id: '',
     name: '',
     company: '',
     address: '',
@@ -35,6 +39,8 @@ function Supplier() {
   const [totalTransaction, setTotalTransaction] = useState(0);
   const [totalPaid, setTotalPaid] = useState(0);
   const [totalDue, setTotalDue] = useState(0);
+
+  
 
   // Fetch suppliers data and calculate totals
   useEffect(() => {
@@ -116,6 +122,8 @@ function Supplier() {
       setShowAddModal(false);
     } catch (error) {
       console.error("Error adding supplier!", error);
+      console.log("Submitting new supplier:", newSupplierData);
+
     }
   };
 
@@ -166,9 +174,9 @@ function Supplier() {
             </nav>
           </div>
           <div className="header_svg d-flex">
-            <Button variant="contained" color="primary" onClick={handleAddSupplier}>
+           {user?.role==="admin" && ( <Button variant="contained" color="primary" onClick={handleAddSupplier}>
               Add Supplier
-            </Button>
+            </Button>)}
           </div>
         </div>
       </div>
@@ -250,12 +258,15 @@ function Supplier() {
                       <td>${supplier.total_paid}</td>
                       <td>${supplier.total_due}</td>
                       <td>
+                      {user?.role==="admin" && (
+                        <>
                         <Button variant="outlined" color="primary" size="small" onClick={() => handleEditSupplier(supplier)}>
                           Edit
                         </Button>
                         <Button variant="outlined" color="secondary" size="small" onClick={() => handleDeleteSupplier(supplier._id)} style={{ marginLeft: '10px' }}>
                           Delete
                         </Button>
+                      </>)}
                       </td>
                     </tr>
                   ))}

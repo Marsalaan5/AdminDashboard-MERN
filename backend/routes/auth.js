@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { authenticate, authorizeRoles } = require('../middleware/auth');
 const User = require('../models/User');
 const Customer = require('../models/Customer');
 const Product = require('../models/Products');
@@ -10,32 +11,61 @@ const Sale = require('../models/Sale');
 const Category = require('../models/Category');
 const StockCategory = require('../models/StockCategory');
 
-
 // Register new user
 router.post('/register', async (req, res) => {
-    const { name, email, password } = req.body;
+  const { name, email, password, role = 'user', status = 'active' } = req.body;
 
-    try {
-        const user = await User.findOne({ email });
-        if (user) {
-            return res.status(400).json({ msg: 'User already exists' });
-        }
+  try {
+      const user = await User.findOne({ email });
+      if (user) {
+          return res.status(400).json({ msg: 'User already exists' });
+      }
 
-        const newUser = new User({ name, email, password });
+      const newUser = new User({ name, email, password, role, status });
 
-        const salt = await bcrypt.genSalt(10);
-        newUser.password = await bcrypt.hash(password, salt);
+      const salt = await bcrypt.genSalt(10);
+      newUser.password = await bcrypt.hash(password, salt);
 
-        await newUser.save();
+      await newUser.save();
 
-        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ id: newUser._id, role: newUser.role }, process.env.JWT_SECRET, {
+          expiresIn: '1h',
+      });
 
-        res.status(201).json({ result: newUser, token });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Something went wrong' });
-    }
+      res.status(201).json({ result: newUser, token });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Something went wrong' });
+  }
 });
+
+
+
+// router.post('/register', async (req, res) => {
+//     const { name, email, password } = req.body;
+
+//     try {
+//         const user = await User.findOne({ email });
+//         if (user) {
+//             return res.status(400).json({ msg: 'User already exists' });
+//         }
+
+//         const newUser = new User({ name, email, password });
+
+//         const salt = await bcrypt.genSalt(10);
+//         newUser.password = await bcrypt.hash(password, salt);
+
+//         await newUser.save();
+
+//         const token = jwt.sign({ id: newUser._id, role: newUser.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+
+//         res.status(201).json({ result: newUser, token });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: 'Something went wrong' });
+//     }
+// });
 
 // Login user
 router.post('/login', async (req, res) => {
@@ -52,7 +82,7 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ msg: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.status(200).json({ result: user, token });
     } catch (error) {

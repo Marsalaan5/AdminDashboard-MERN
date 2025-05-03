@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import {
   Dialog,
@@ -12,6 +12,9 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import { MyContext } from "../../context/Context";
+import { useNavigate } from "react-router-dom";
+
 
 function ExpenseList() {
   const [expenses, setExpenses] = useState([]);
@@ -21,6 +24,8 @@ function ExpenseList() {
   const [error, setError] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
+  const {user} = useContext(MyContext)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -58,23 +63,21 @@ function ExpenseList() {
     fetchCategories();
   }, []);
 
-
-
   const getCategoryName = (expense_category) => {
     if (!expense_category) return "N/A";
-  
+
     // If s_category is an object, get the id
-    const categoryId = typeof expense_category === "object" ? expense_category._id : expense_category;
-  
+    const categoryId =
+      typeof expense_category === "object"
+        ? expense_category._id
+        : expense_category;
+
     const category = expenseCategories.find(
       (category) => String(category._id) === String(categoryId)
     );
-  
+
     return category ? category.name : "N/A";
   };
-  
-
-  
 
   const formattedTotalExpense = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -175,12 +178,17 @@ function ExpenseList() {
                 <h3 className="card-title">
                   <b>All Expense Categories</b>
                 </h3>
-                <a
-                  href="/newexpense"
-                  className="btn btn-primary btn-sm float-right rounded-0"
-                >
-                  Add Expense
-                </a>
+               {user?.role === "admin" && (
+                <>
+                 <button
+  className="btn btn-sm btn-warning"
+  onClick={() => navigate("/newexpense")}
+>
+  Add Expense
+</button>
+  </>
+               )}
+
               </div>
 
               <div className="card-body">
@@ -208,22 +216,29 @@ function ExpenseList() {
                           </td>
                           <td>{expense.expense_for}</td>
                           <td>{expense.expense_amount}</td>
-                          {/* <td>{getCategoryName(expense.expense_category)}</td> */}
-                          <td>{expenseCategories.length ? getCategoryName(expense.expense_category) : "Loading..."}</td>
+
+                          <td>
+                            {expenseCategories.length
+                              ? getCategoryName(expense.expense_category)
+                              : "Loading..."}
+                          </td>
                           <td>{expense.exp_descrip}</td>
                           <td>
-                            <button
+                          {user?.role === "admin" && (
+                        <>
+                         <button
                               className="btn btn-warning btn-sm"
                               onClick={() => handleEdit(expense._id)}
-                            >
+                              >
                               Edit
                             </button>
                             <button
                               className="btn btn-danger btn-sm ml-2"
                               onClick={() => handleDelete(expense._id)}
-                            >
+                              >
                               Delete
                             </button>
+                              </>)} 
                           </td>
                         </tr>
                       ))}

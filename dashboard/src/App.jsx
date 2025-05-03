@@ -1,21 +1,20 @@
-
 import "./App.css";
 import "./Responsive.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useContext } from "react";
+import { MyContext } from "./context/Context.jsx";
 
-import PrivateRoute from "./components/Routes/PrivateRoute.jsx";
-import AdminRoute from "./components/Routes/AdminRoute.jsx";
-
-import Dashboard from "./pages/Dashboard/Dashboard.jsx";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+// Layout
 import Header from "./components/Header/Header.jsx";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
-import { useState, useEffect, useContext } from "react";
-import { MyContext } from "./context/Context.jsx";
+
+// Auth
 import Login from "./pages/Login/Login.jsx";
 import Register from "./pages/Register/Register.jsx";
-import Addstocks from "./pages/Stocks/Addstocks.jsx";
-// import ProductList from "./pages/Stocks/ProductList.jsx";
+
+// Pages
+import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import Newsell from "./pages/Sells/Newsell.jsx";
 import SellList from "./pages/Sells/SellList.jsx";
 import Sellreturn from "./pages/Sells/Sellreturn.jsx";
@@ -31,147 +30,105 @@ import Customer from "./pages/Customer/Customer.jsx";
 import ProductList from "./pages/Stocks/ProductList.jsx";
 import Supplier from "./pages/Supplier/Supplier.jsx";
 import Staff from "./pages/Staff/Staff.jsx";
-// import Expense from "./pages/Expense/Expense.jsx";
 import NewExpense from "./pages/Expense/NewExpense.jsx";
 import ExpenseList from "./pages/Expense/ExpenseList.jsx";
 import ExpenseCategoryList from "./pages/Expense/ExpenseCategoryList.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
-// import EditCustomer from "./pages/Customer/EditCustomer.jsx";
-// import AddCustomer from "./pages/Customer/AddCustomer.jsx";
+import Addstocks from "./pages/Stocks/Addstocks.jsx";
+import UserManagement from "./pages/UserManagement/UserManagement.jsx";
+
 
 function App() {
-  const [isToggleSidebar, setIsToggleSidebar] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
-  const [user, setUser] = useState(null); 
-  const [isHideSidebarAndHeader, setIsHideSidebarAndHeader] = useState(false);
-  
-  const context = useContext(MyContext)
-
-  const [themeMode, setThemeMode] = useState(() => {
-    return localStorage.getItem("themeMode") || "light";
-  });
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const storedToken = localStorage.getItem("token");
-  
-    if (storedUser && storedToken) {
-      try {
-        context.setUser(JSON.parse(storedUser));
-        context.setIsLogin(true);
-      } catch (error) {
-        console.error("Error parsing user data:", error);
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        context.setUser(null);
-        context.setIsLogin(false);
-      }
-    }
-  }, []);
-
+  const {
+    isLoggedIn,
+    themeMode,
+    isToggleSidebar,
+    isHideSidebarAndHeader,
+  } = useContext(MyContext);
 
   useEffect(() => {
     document.body.classList.remove("dark", "light");
-    document.body.classList.add(themeMode); 
+    document.body.classList.add(themeMode);
     localStorage.setItem("themeMode", themeMode);
   }, [themeMode]);
 
-  const value = {
-    isToggleSidebar,
-    setIsToggleSidebar,
-    isLogin,
-    setIsLogin,
-    isHideSidebarAndHeader,
-    setIsHideSidebarAndHeader,
-    themeMode,
-    setThemeMode,
-    user,
-    setUser,
-  };
-
   return (
     <BrowserRouter>
-      <MyContext.Provider value={value}>
-       
-        {!isHideSidebarAndHeader && <Header />}
-
-        <div className="main d-flex">
-        
-          {!isHideSidebarAndHeader && (
-            <div className={`sidebarWrapper ${isToggleSidebar ? "toggle" : ""}`}>
-              <Sidebar />
-            </div>
-          )}
-
-          <div className={`content ${isToggleSidebar ? "toggle" : ""}`}>
-            <Routes>
-
-
-
-  {/* Public */}
-  <Route path="/login" element={<Login />} />
-  <Route path="/register" element={<Register />} />
-
-  {/* Private Routes */}
-  <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>}/>
-
-  <Route path="/products_upload"element={<PrivateRoute><AddProduct /> </PrivateRoute>}/>
-
-  {/* Admin-Only Routes */}
-  <Route path="/staff" element={<Staff />}/>
-
-  <Route path="/newbuy" element={ <AdminRoute> <NewBuy /></AdminRoute>}/>
-
-
-
-
-              {/* <Route path="/" element={<Dashboard />} /> */}
-              {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-              {/* <Route path="/login" element={<Login />} /> */}
-              {/* <Route path="/register" element={<Register />} /> */}
-
-              <Route path="/newsell" element={<Newsell />} />
-              <Route path="/sell_list" element={<SellList />} />
-              <Route path="/sell_return" element={<Sellreturn />} />
-
-              {/* <Route path="/newbuy" element={<NewBuy />} /> */}
-              <Route path="/buy_list" element={<BuyList/>} />
-              <Route path="/buy_refund" element={<BuyRefund />} />
-
-
-              <Route path="/newexpense" element={<NewExpense/>} />
-              <Route path="/expense_list" element={<ExpenseList/>} />
-              <Route path="/expense_category_list" element={<ExpenseCategoryList />} />
-
-              <Route path="/customers" element={<Customer/>} />
-              {/* <Route path="/add_customers" element={<AddCustomer/>} /> */}
-              {/* <Route path="/edit_customers" element={<EditCustomer/>} /> */}
-
-
-              <Route path="/suppliers" element={<Supplier/>} />
-              {/* <Route path="/staff" element={<Staff/>} /> */}
-              <Route path="/suppliers" element={<Supplier/>} />
-
-
-              <Route path="/category" element={<Category/>} />
-              <Route path="/addstocks" element={<Addstocks />} />
-              <Route path="/product_list" element={<ProductList />} />
-
-              {/* <Route path="/products_upload" element={<AddProduct/>} /> */}
-              <Route path="/edit-product/:productId" element={<EditProduct/>} />
-              <Route path="/products_view" element={<ProductDetail/>} />
-              <Route path="/productlist" element={<Products />} />
-
-
-              <Route path="/profile" element={<Profile />} />
-
-
-             
-
-            </Routes>
+      <div className="main d-flex">
+        {!isHideSidebarAndHeader && isLoggedIn && <Header />}
+        {!isHideSidebarAndHeader && isLoggedIn && (
+          <div className={`sidebarWrapper ${isToggleSidebar ? "toggle" : ""}`}>
+            <Sidebar />
           </div>
+        )}
+
+        <div className={`content ${isToggleSidebar ? "toggle" : ""}`}>
+          <Routes>
+    
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+
+            
+            {isLoggedIn ? (
+              <>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/newsell" element={<Newsell />} />
+                <Route path="/sell_list" element={<SellList />} />
+                <Route path="/sell_return" element={<Sellreturn />} />
+                <Route path="/newbuy" element={<NewBuy />} />
+                <Route path="/buy_list" element={<BuyList />} />
+                <Route path="/buy_refund" element={<BuyRefund />} />
+                <Route path="/newexpense" element={<NewExpense />} />
+                <Route path="/expense_list" element={<ExpenseList />} />
+                <Route path="/expense_category_list" element={<ExpenseCategoryList />} />
+                <Route path="/customers" element={<Customer />} />
+                <Route path="/suppliers" element={<Supplier />} />
+                <Route path="/category" element={<Category />} />
+                <Route path="/addstocks" element={<Addstocks />} />
+                <Route path="/product_list" element={<ProductList />} />
+                <Route path="/edit-product/:productId" element={<EditProduct />} />
+                <Route path="/products_view" element={<ProductDetail />} />
+                <Route path="/products_upload" element={<AddProduct />} />
+                <Route path="/productlist" element={<Products />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/staff" element={<Staff />} />
+                <Route path="/user_management" element={<UserManagement />} />
+              </>
+            ) : (
+              <>
+             
+                <Route path="/" element={<Navigate to="/login" />} />
+                <Route path="/dashboard"element={<Navigate to="/login" />} />
+              
+                
+                <Route path="/newsell" element={<Navigate to="/login" />} />
+                <Route path="/sell_list" element={<Navigate to="/login" />} />
+                <Route path="/sell_return" element={<Navigate to="/login" />} />
+                <Route path="/newbuy" element={<Navigate to="/login" />} />
+                <Route path="/buy_list" element={<Navigate to="/login" />} />
+                <Route path="/buy_refund" element={<Navigate to="/login" />} />
+                <Route path="/buy_refund" element={<Navigate to="/login" />} />
+                <Route path="/newexpense" element={<Navigate to="/login" />} />
+                <Route path="/expense_list" element={<Navigate to="/login" />} />
+                <Route path="/expense_category_list" element={<Navigate to="/login" />} />
+                <Route path="/customers" element={<Navigate to="/login" />} />
+                <Route path="/suppliers" element={<Navigate to="/login" />} />
+                <Route path="/category" element={<Navigate to="/login" />} />
+                <Route path="/addstocks" element={<Navigate to="/login" />} />
+                <Route path="/product_list" element={<Navigate to="/login" />} />
+                <Route path="/edit-product/:productId" element={<Navigate to="/login" />} />
+                <Route path="/products_view" element={<Navigate to="/login" />} />
+                <Route path="/products_upload" element={<Navigate to="/login" />} />
+                <Route path="/productlist" element={<Navigate to="/login" />} />
+                <Route path="/profile" element={<Navigate to="/login" />} />
+                <Route path="/staff" element={<Navigate to="/login" />} />
+                <Route path="/user_management" element={<Navigate to="/login" />} />
+    
+              </>
+            )}
+          </Routes>
         </div>
-      </MyContext.Provider>
+      </div>
     </BrowserRouter>
   );
 }

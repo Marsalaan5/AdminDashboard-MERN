@@ -2,6 +2,7 @@ const express = require("express");
 const Stock = require("../models/Stock");
 const Product = require("../models/Products")
 const router = express.Router();
+const {isAdmin} = require("../middleware/auth.js")
 
 // GET all stocks
 router.get("/", async (req, res) => {
@@ -30,7 +31,7 @@ router.get("/:id", async (req, res) => {
 
 
 
-router.post("/", async (req, res) => {
+router.post("/",isAdmin,async (req, res) => {
   try {
     const { stock_name, brand, s_category, s_source, sku, alert_quantity, buy_price, selling_price } = req.body;
 
@@ -54,7 +55,7 @@ router.post("/", async (req, res) => {
 });
 
 
-router.put("/:id", async (req, res) => {
+router.put("/:id",isAdmin, async (req, res) => {
   try {
     const { stock_name, brand, s_category, s_source, sku, alert_quantity, buy_price, selling_price } = req.body;
     const updatedStock = await Stock.findByIdAndUpdate(
@@ -79,7 +80,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // DELETE a stock by ID
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",isAdmin, async (req, res) => {
   try {
     await Stock.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: "Stock deleted successfully" });

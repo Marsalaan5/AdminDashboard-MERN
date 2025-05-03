@@ -30,6 +30,9 @@ const stockRoutes = require("./routes/stock.js");
 const customerRoutes = require("./routes/customer.js"); 
 const supplierRoutes = require("./routes/supplier.js"); 
 const purchaseRoutes = require("./routes/purchase.js"); 
+const userRoutes = require("./routes/user.js"); 
+// const adminRoutes = require("./routes/admin.js"); 
+
 // const paymentMethodRoutes = require("./routes/paymentMethod.js"); 
 
 const app = express()
@@ -55,6 +58,8 @@ app.use('/api/purchase', purchaseRoutes);
 app.use('/api/stock_categories', stockCategoryRoutes); 
 app.use('/api/categories', categoryRoutes); 
 app.use('/api/products', productRoutes);
+app.use('/api/users',userRoutes)
+// app.use('/api/admin',adminRoutes)
 app.use('/auth',authRoutes)
 
 

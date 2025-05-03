@@ -1,5 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import axios from "axios";
+// import PropTypes from "prop-types";
+// import { MyContext } from "../../context/Context";
+// import { useNavigate } from "react-router-dom";
 
 function Addstocks() {
   const [stockCategories, setStockCategories] = useState([]);
@@ -16,6 +19,8 @@ function Addstocks() {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  // const { user } = useContext(MyContext);   
+  // const navigate = useNavigate
 
   // Fetch categories from backend
   useEffect(() => {
@@ -57,6 +62,7 @@ const handleSubmit = async (e) => {
 
     setSuccessMessage("Stock added successfully!");
     setErrorMessage("");
+    // onStockAdded && onStockAdded(response.data);
 
     // Clear form after successful submission
     setStockData({
@@ -78,6 +84,13 @@ const handleSubmit = async (e) => {
   }
 };
 
+// useEffect(() => {
+//   if (user && user.role !== "admin") {
+
+//     alert("You are not authorized to access this page.");
+//     navigate("/dashboard"); 
+//   }
+// }, [user,navigate]);
 
   return (
     <div className="right-contentDashboard w-98">
@@ -254,5 +267,12 @@ const handleSubmit = async (e) => {
     </div>
   );
 }
+
+// Addstocks.propTypes = {
+
+//   onStockAdded: PropTypes.func.isRequired,
+ 
+// };
+
 
 export default Addstocks;

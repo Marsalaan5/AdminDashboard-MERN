@@ -12,6 +12,8 @@ function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("user");
+
   const navigate = useNavigate();
   const context = useContext(MyContext);
 
@@ -68,7 +70,7 @@ function Register() {
         }}
       >
         <div className="text-center mb-3">
-          <Link to="/">
+          <Link to="/" className="logoLogin">
             <img src={logo} alt="Logo" style={{ width: 100 }} />
           </Link>
         </div>
@@ -122,6 +124,22 @@ function Register() {
               required
             />
           </div>
+
+          {/* <div className="mb-3">
+  <label htmlFor="role" className="form-label">
+    <strong>Role</strong>
+  </label>
+  <select
+    id="role"
+    className="form-control rounded-0"
+    value={role}
+    onChange={(e) => setRole(e.target.value)}
+  >
+    <option value="user">User</option>
+    <option value="admin">Admin</option>
+  </select>
+</div> */}
+
 
           <button type="submit" className="btn btn-primary w-100 rounded-0">
             Sign Up

@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Card, Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+// import User from '../../../../backend/models/User';
+import { MyContext } from '../../context/Context';
 
 function Staff() {
   const [staffs, setStaffs] = useState([]);
@@ -26,6 +28,8 @@ function Staff() {
     contact: '',
     email: '',
   });
+
+  const {user} = useContext(MyContext) 
 
 
   useEffect(() => {
@@ -188,12 +192,14 @@ function Staff() {
                       <td>{staff.email}</td>
                       
                       <td>
+                       {user?.role === "admin" && (
+                        <>
                         <Button
                           variant="outlined"
                           color="primary"
                           size="small"
                           onClick={() => handleEditstaff(staff)}
-                        >
+                          >
                           Edit
                         </Button>
                         <Button
@@ -202,9 +208,10 @@ function Staff() {
                           size="small"
                           onClick={() => handleDeletestaff(staff._id)}
                           style={{ marginLeft: '10px' }}
-                        >
+                          >
                           Delete
                         </Button>
+                          </>)}
                       </td>
                     </tr>
                   ))}

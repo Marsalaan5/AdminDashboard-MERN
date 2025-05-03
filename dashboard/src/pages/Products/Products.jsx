@@ -26,7 +26,7 @@ function Products() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/products'); // Make sure this URL is correct based on your backend
+        const response = await axios.get('http://localhost:5000/api/products');
         console.log(response.data);
         setProducts(response.data);
         setLoading(false);
@@ -39,7 +39,6 @@ function Products() {
     fetchProducts();
   }, []);
 
-  // Filter products based on category, price, rating, and search query
 
   const filteredProducts = products;
 

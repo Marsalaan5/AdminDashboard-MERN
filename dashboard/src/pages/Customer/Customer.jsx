@@ -1,13 +1,14 @@
 
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Card, Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { MyContext } from '../../context/Context';
 
 function Customer() {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
-
+const {user} = useContext(MyContext)
   // State for handling the modal and editing
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false); 
@@ -191,9 +192,12 @@ function Customer() {
           </div>
           <div className="header_svg d-flex">
             <div style={{ marginBottom: '20px', textAlign: 'right' }}>
-              <Button variant="contained" color="primary" onClick={handleAddCustomer}>
+           {user?.role === "admin" && (
+            <>
+            <Button variant="contained" color="primary" onClick={handleAddCustomer}>
                 Add Customer
               </Button>
+              </>)}
             </div>
           </div>
         </div>
@@ -280,12 +284,14 @@ function Customer() {
                       <td>${customer.total_paid}</td>
                       <td>${customer.total_due}</td>
                       <td>
-                        <Button
+                      {user?.role === "admin" && (
+                        <>
+                         <Button
                           variant="outlined"
                           color="primary"
                           size="small"
                           onClick={() => handleEditCustomer(customer)}
-                        >
+                          >
                           Edit
                         </Button>
                         <Button
@@ -294,9 +300,10 @@ function Customer() {
                           size="small"
                           onClick={() => handleDeleteCustomer(customer._id)}
                           style={{ marginLeft: '10px' }}
-                        >
+                          >
                           Delete
                         </Button>
+                          </>)} 
                       </td>
                     </tr>
                   ))}

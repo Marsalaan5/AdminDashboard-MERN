@@ -1,7 +1,9 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect ,useContext} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { MyContext } from "../../context/Context";
+
 import {
   Dialog,
   DialogActions,
@@ -21,6 +23,8 @@ function ProductList() {
   const [stockCategories, setStockCategories] = useState([]);
   const [openModal, setOpenModal] = useState(false); 
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const {user} = useContext(MyContext)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -135,13 +139,16 @@ function ProductList() {
               <h3 className="card-title">
                 <b>Total Product List</b>
               </h3>
-              <a
-                href="/addstocks"
-                className="btn btn-primary btn-sm float-right rounded-0"
-                style={{ margin: "8px" }}
-              >
-                <i className="fas fa-plus"></i> New Product
-              </a>
+              {user?.role === "admin" && (
+                <>
+                 <button
+  className="btn btn-sm btn-warning"
+  onClick={() => navigate("/addstocks")}
+>
+  Add Stock
+</button>
+  </>
+               )}
             </div>
 
             <div className="card-body">
@@ -175,19 +182,23 @@ function ProductList() {
                           <td>{product.alert_quantity}</td>
                           <td>₹ {product.buy_price}</td>
                           <td>₹ {product.selling_price}</td>
-                          <td>
-                            <button
+                         <td>
+                         {user?.role === "admin" && (
+                          <>
+                          <button
                               className="btn btn-sm btn-warning"
                               onClick={() => handleEdit(product._id)}
-                            >
+                              >
                               Edit
                             </button>
                             <button
                               className="btn btn-sm btn-danger ml-2"
                               onClick={() => handleDelete(product._id)}
-                            >
+                              >
                               Delete
                             </button>
+                              </>
+                            )}
                           </td>
                         </tr>
                       ))
