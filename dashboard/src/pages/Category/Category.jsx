@@ -3,6 +3,8 @@
 
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { Button } from '@mui/material';
+import { Add } from '@mui/icons-material';
 import { MyContext } from '../../context/Context';
 
 function Category() {
@@ -91,21 +93,47 @@ function Category() {
     <div className="right-contentDashboard w-98">
       <section>
         <div className="container-fluid">
-          <div className="card">
-            <div className="card-header">
-              <h3 className="card-title"><b>Categories</b></h3>
-              {user?.role === "admin" && (
-                        <> 
-                        <button
+      
+        <div className="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb">
+          <div>
+            <h2 className="main-content-title fs-24 mt-4 text-dark">Category</h2>
+            <nav aria-label="breadcrumb" className="my-0">
+              <ol className="breadcrumb mb-0">
+                <li className="breadcrumb-item"><a href="#" role="button">Category</a></li>
+                <li className="breadcrumb-item active" aria-current="page">Category-Details</li>
+              </ol>
+            </nav>
+          </div>
+          {/* <div className="header_svg d-flex">
+            <div style={{ marginBottom: '20px', textAlign: 'right' }}>
+           {user?.role === "admin" && (
+            <>
+            <button
                 type="button"
                 className="btn btn-primary btn-sm float-right rounded-0"
                 onClick={() => setShowModal(true)}
               >
                 <i className="fas fa-plus"></i> Add Category
               </button>
-            </>
-              )}
-            </div>
+            
+              </>)}
+              </div>
+              </div> */}
+          <div className="header_svg d-flex">
+            <div style={{ marginBottom: '10px', textAlign: 'right' }}>
+             
+           {user?.role === "admin" && ( 
+             <>   
+            <Button variant="contained" color="primary"  startIcon={<Add />} onClick={()=> setShowModal(true)}>
+                Add Category
+              </Button>
+                </> )}
+         
+          </div>
+        </div>
+             </div>
+      </div>
+          <div className="card">
 
             <div className="card-body">
               <div className="table-responsive">
@@ -146,7 +174,7 @@ function Category() {
               </div>
             </div>
           </div>
-        </div>
+      
       </section>
 
       {/* Add Category Modal */}

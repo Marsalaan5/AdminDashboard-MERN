@@ -7,7 +7,7 @@ function DashboardBox({ title, orders, icon: Icon, color }) {
       className="dashboardBox d-flex flex-column justify-content-center align-items-center"
       style={{
         backgroundImage: `linear-gradient(to bottom right, ${color[0]}, ${color[1]})`,
-        width: "376px",
+        width: "355px",
         margin:"10px 0px",
         height: "150px",
         // gap:"1px",

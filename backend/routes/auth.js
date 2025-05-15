@@ -131,7 +131,7 @@ router.post("/sales", async (req, res) => {
         await newSale.save();
 
         for (let product of products) {
-            await Product.findByIdAndUpdate(product.product, {
+            await Product.findById(product.product, {
                 $inc: { quantity: -product.quantity },
             });
         }
@@ -231,7 +231,7 @@ router.post('/stock_categories', async (req, res) => {
 // Route: PUT (Update) a category by ID
 router.put('/stock_categories/:id', async (req, res) => {
   try {
-    const updatedCategory = await StockCategory.findByIdAndUpdate(
+    const updatedCategory = await StockCategory.findById(
       req.params.id,
       req.body,
       { new: true } // Return the updated category
@@ -304,31 +304,31 @@ router.post('/api/customers', async (req, res) => {
   }
 });
 
-// Add a new supplier
-router.post('/api/suppliers', async (req, res) => {
-  const { name, company, address, contact, email, sup_open_blacnce, reg_date } = req.body;
+// // Add a new supplier
+// router.post('/api/suppliers', async (req, res) => {
+//   const { name, company, address, contact, email, sup_open_blacnce, reg_date } = req.body;
 
-  if (!name) {
-      return res.status(400).json({ message: "Name field required" });
-  }
+//   if (!name) {
+//       return res.status(400).json({ message: "Name field required" });
+//   }
 
-  const supplier = new Supplier({
-      name,
-      company,
-      address,
-      contact,
-      email,
-      total_due: sup_open_blacnce,
-      reg_date: new Date(reg_date),
-  });
+//   const supplier = new Supplier({
+//       name,
+//       company,
+//       address,
+//       contact,
+//       email,
+//       total_due: sup_open_blacnce,
+//       reg_date: new Date(reg_date),
+//   });
 
-  try {
-      await supplier.save();
-      return res.status(201).json({ message: "Supplier added successfully" });
-  } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: "Failed to add supplier, please try again" });
-  }
-});
+//   try {
+//       await supplier.save();
+//       return res.status(201).json({ message: "Supplier added successfully" });
+//   } catch (error) {
+//       console.error(error);
+//       return res.status(500).json({ message: "Failed to add supplier, please try again" });
+//   }
+// });
 
 module.exports = router;

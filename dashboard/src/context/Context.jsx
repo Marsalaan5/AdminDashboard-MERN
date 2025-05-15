@@ -64,7 +64,7 @@ const AuthProvider = ({ children }) => {
         isHideSidebarAndHeader,
         setIsHideSidebarAndHeader,
         isToggleSidebar,
-        setIsToggleSidebar, // ✅ now defined correctly
+        setIsToggleSidebar, 
       }}
     >
       {children}

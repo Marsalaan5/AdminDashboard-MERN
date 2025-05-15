@@ -31,6 +31,8 @@ const customerRoutes = require("./routes/customer.js");
 const supplierRoutes = require("./routes/supplier.js"); 
 const purchaseRoutes = require("./routes/purchase.js"); 
 const userRoutes = require("./routes/user.js"); 
+// const roleRoutes = require("./routes/role.js"); 
+// const permissionRoutes = require("./routes/permission.js"); 
 // const adminRoutes = require("./routes/admin.js"); 
 
 // const paymentMethodRoutes = require("./routes/paymentMethod.js"); 
@@ -59,6 +61,8 @@ app.use('/api/stock_categories', stockCategoryRoutes);
 app.use('/api/categories', categoryRoutes); 
 app.use('/api/products', productRoutes);
 app.use('/api/users',userRoutes)
+// app.use('/api/roles',roleRoutes)
+// app.use('/api/permissions',permissionRoutes)
 // app.use('/api/admin',adminRoutes)
 app.use('/auth',authRoutes)
 

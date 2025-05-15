@@ -131,6 +131,24 @@ function Dashboard() {
 
   return (
     <div className="right-contentDashboard w-98">
+  <div className="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb">
+          <div>
+            <h2 className="main-content-title fs-24 mb-1 text-dark">Dashboard</h2>
+            <nav aria-label="breadcrumb" className="my-0">
+              <ol className="breadcrumb mb-0">
+                <li className="breadcrumb-item">
+                  <a href="/" role="button" tabIndex="0">
+                   Home
+                  </a>
+                </li>
+                <li className="breadcrumb-item active" aria-current="page">
+                 Dashbaord
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+
       <div className="row">
         <div className="col-md-3">
           <DashboardBox

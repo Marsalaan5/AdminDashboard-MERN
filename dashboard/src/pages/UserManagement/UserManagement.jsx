@@ -1,8 +1,11 @@
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { MyContext } from '../../context/Context.jsx';
+import { MyContext } from "../../context/Context.jsx";
 import { useNavigate } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+// import { PaginationControl } from 'react-bootstrap-pagination-control';
+
+import Pagination from "react-bootstrap/Pagination";
 
 function UserManagement() {
   const { token, user } = useContext(MyContext);
@@ -18,6 +21,14 @@ function UserManagement() {
   const [message, setMessage] = useState("");
   const [editUser, setEditUser] = useState(null);
   const navigate = useNavigate();
+
+  const [page, setPage] = useState(1);
+  const usersPerPage = 10;
+
+  const indexOfLastUser = page * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+  const totalPages = Math.ceil(users.length / usersPerPage);
 
   useEffect(() => {
     if (!token) {
@@ -71,9 +82,6 @@ function UserManagement() {
     }
   };
 
-  
-
-
   const handleEditUser = (user) => {
     setEditUser(user);
   };
@@ -118,16 +126,43 @@ function UserManagement() {
 
   return (
     <div className="right-contentDashboard w-98">
-
-      <div className="container mt-5 p-4 d-flex justify-content-between align-items-center border rounded shadow-sm bg-light">
+      {/* <div className="container mt-5 p-4 d-flex justify-content-between align-items-center border rounded shadow-sm bg-light">
         <h4 className="mb-0 fw-semibold text-primary">User Management</h4>
-        { user?.role === 'admin' && ( <button
-          className="btn btn-success d-flex align-items-center"
-          data-bs-toggle="modal"
-          data-bs-target="#addUserModal"
-        >
-          <i className="fas fa-plus me-2"></i> Add User
-        </button>)}
+        {user?.role === "admin" && (
+          <button
+            className="btn btn-success d-flex align-items-center"
+            data-bs-toggle="modal"
+            data-bs-target="#addUserModal"
+          >
+            <i className="fas fa-plus me-2"></i> Add User
+          </button>
+        )}
+      </div> */}
+            <div className="p-4 d-flex justify-content-between align-items-center">
+       
+              <div className="col-sm-6">
+                <h1 className="m-0 text-dark">User Management</h1>
+                <div className="col-sm-6">
+                  <ol className="breadcrumb float-sm-right">
+                    <li className="breadcrumb-item">
+                      <a href="/">Home</a>
+                    </li>
+                    <li className="breadcrumb-item active">User Management</li>
+                  </ol>
+                </div>
+              </div>
+          
+        {/* <h4 className="mb-0 fw-semibold text-primary">User Management</h4> */}
+        {/* {user?.role === "admin" && ( */}
+        
+          <button
+            className="btn btn-success d-flex align-items-center"
+            data-bs-toggle="modal"
+            data-bs-target="#addUserModal"
+          >
+            <i className="fas fa-plus me-2"></i> Add User
+          </button>
+        {/* )} */}
       </div>
 
       <div
@@ -237,58 +272,7 @@ function UserManagement() {
         </div>
       </div>
 
-      {/* Add New User Form
-      <form className="mb-4" onSubmit={handleAddUser}>
-        <div className="row g-2">
-          <div className="col-md-3">
-            <input
-              type="text"
-              placeholder="Name"
-              className="form-control"
-              value={newUser.name}
-              onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-              required
-            />
-          </div>
-          <div className="col-md-3">
-            <input
-              type="email"
-              placeholder="Email"
-              className="form-control"
-              value={newUser.email}
-              onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-              required
-            />
-          </div>
-          <div className="col-md-3">
-            <input
-              type="password"
-              placeholder="Password"
-              className="form-control"
-              value={newUser.password}
-              onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-              required
-            />
-          </div>
-          <div className="col-md-3">
-            <select
-              className="form-control"
-              value={newUser.role}
-              onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
-            >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
-              <option value="super_admin">Super Admin</option>
-            </select>
-          </div>
-          <div className="col-md-3">
-            <button className="btn btn-success w-100" type="submit" disabled={loading}>
-              {loading ? "Adding..." : "Add User"}
-            </button>
-          </div>
-        </div>
-      </form> */}
-
+    
       {/* Edit User Form */}
       {editUser && (
         <div
@@ -399,156 +383,124 @@ function UserManagement() {
       )}
 
       {/* User List */}
-      
-      {/* <table className="table table-bordered table-hover mt-3 shadow-sm">
-        <thead className="table-primary text-white">
-          <tr>
-            <th scope="col">ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th className="text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody className="table-light shadow-lg border">
-          {users.length === 0 ? (
+      <div className="bg-white p-4 rounded shadow-sm mt-2">
+        <h5 className="container mt-2 p-3 d-flex justify-content-between align-items-center border rounded shadow-sm bg-light">
+          User List
+        </h5>
+
+        <table className="table table-hover align-middle  mt-4 mb-0">
+          <thead className="bg-secondary text-white">
             <tr>
-              <td colSpan="5" className="text-center">
-                No users found
-              </td>
-            </tr>
-          ) : (
-            users.map((userInTable, index) => (
-              <tr key={userInTable.id}>
-                <td>{index + 1}</td>
-                <td className="fw-bold">{userInTable.name}</td>
-                <td>{userInTable.email}</td> */}
-                {/* <td>
-                  <i
-                    className="fas fa-circle me-2"
-                    style={{
-                      color: userInTable.status === "active" ? "green" : "red",
-                      fontSize: "0.5rem",
-                    }}
-                  ></i>
-                </td> */}
-
-                {/* <td>
-                  <span
-                    className={`badge px-3 py-2 text-uppercase fw-semibold`}
-                    style={{
-                      backgroundColor:
-                        userInTable.status === "active" ? "#d4edda" : "#f8d7da",
-                      color:
-                        userInTable.status === "active" ? "#155724" : "#721c24",
-                      borderRadius: "5px",
-                      fontSize: "0.65rem",
-                    }}
-                  >
-                    {userInTable.status}
-                  </span>
-                </td>
-
-                <td className="text-center">
-                  {user?.role === "admin" && (
-                    <>
-                      <i
-                        className="fas fa-edit text-warning me-3"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => handleEditUser(userInTable)}
-                        title="Edit"
-                      ></i>
-
-                      <i
-                        className="fas fa-trash-alt text-danger"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => handleDelete(userInTable.id)}
-                        title="Delete"
-                      ></i>
-                    </>
-                  )}
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table> */}
-<div className="bg-white p-4 rounded shadow-sm mt-2">
-  <h5 className="container mt-2 p-3 d-flex justify-content-between align-items-center border rounded shadow-sm bg-light">User List</h5>
-
-  <table className="table table-hover align-middle  mt-4 mb-0">
-    <thead className="bg-secondary text-white">
-      <tr>
-        <th scope="col">ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Status</th>
-        <th>Role</th>
-        <th className="text-center">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {users.length === 0 ? (
-        <tr>
-          <td colSpan="5" className="text-center text-muted py-4">
-            No users found
-          </td>
-        </tr>
-      ) : (
-        users.map((userInTable, index) => (
-          <tr key={userInTable.id}>
-            <td>{index + 1}</td>
-            <td className="fw-semibold">{userInTable.name.toLowerCase()
-    .split(" ")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ")}
-    </td>
-            <td>{userInTable.email}</td>
-            <td>
-             <span
-                    className={`badge px-3 py-2 text-uppercase fw-semibold`}
-                    style={{
-                      backgroundColor:
-                        userInTable.status === "active" ? "#d4edda" : "#f8d7da",
-                      color:
-                        userInTable.status === "active" ? "#155724" : "#721c24",
-                      borderRadius: "5px",
-                      fontSize: "0.65rem",
-                    }}
-                  >
-                    {userInTable.status}
-                  </span>
-            </td>
-            <td>{userInTable.role.toLowerCase()
-    .split(" ")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ")}</td>
-            <td className="text-center">
+              <th scope="col">ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Role</th>
               {user?.role === "admin" && (
                 <>
-                  <i
-                    className="fas fa-edit text-warning me-3"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => handleEditUser(userInTable)}
-                    title="Edit"
-                  ></i>
-                  <i
-                    className="fas fa-trash-alt text-danger"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => handleDelete(userInTable.id)}
-                    title="Delete"
-                  ></i>
+                  {" "}
+                  <th className="text-center">Actions</th>
                 </>
               )}
-            </td>
-          </tr>
-        ))
-      )}
-    </tbody>
-  </table>
-</div>
+            </tr>
+          </thead>
+          <tbody>
+            {users.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="text-center text-muted py-4">
+                  No users found
+                </td>
+              </tr>
+            ) : (
+              currentUsers.map((userInTable, index) => (
+                <tr key={userInTable.id}>
+                  {/* <td>{index + 1}</td> */}
+                  <td>{indexOfFirstUser + index + 1}</td>
 
+                  <td className="fw-semibold">
+                    {userInTable.name
+                      .toLowerCase()
+                      .split(" ")
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}
+                  </td>
+                  <td>{userInTable.email}</td>
+                  <td>
+                    <span
+                      className={`badge px-3 py-2 text-uppercase fw-semibold`}
+                      style={{
+                        backgroundColor:
+                          userInTable.status === "active"
+                            ? "#d4edda"
+                            : "#f8d7da",
+                        color:
+                          userInTable.status === "active"
+                            ? "#155724"
+                            : "#721c24",
+                        borderRadius: "5px",
+                        fontSize: "0.65rem",
+                      }}
+                    >
+                      {userInTable.status}
+                    </span>
+                  </td>
+                  <td>
+                    {userInTable.role
+                      .toLowerCase()
+                      .split(" ")
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}
+                  </td>
+                  {user?.role === "admin" && (
+                    <>
+                      <td className="text-center">
+                        <i
+                          className="fas fa-edit text-warning me-3"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleEditUser(userInTable)}
+                          title="Edit"
+                        ></i>
+                        <i
+                          className="fas fa-trash-alt text-danger"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleDelete(userInTable.id)}
+                          title="Delete"
+                        ></i>
+                      </td>
+                    </>
+                  )}
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
 
+        <Pagination className="d-flex mt-3 justify-content-center">
+          <Pagination.Prev
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+          />
+
+          {[...Array(totalPages)].map((_, idx) => (
+            <Pagination.Item
+              key={idx + 1}
+              active={idx + 1 === page}
+              onClick={() => setPage(idx + 1)}
+            >
+              {idx + 1}
+            </Pagination.Item>
+          ))}
+
+          <Pagination.Next
+            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={page === totalPages}
+          />
+        </Pagination>
+      </div>
     </div>
   );
 }

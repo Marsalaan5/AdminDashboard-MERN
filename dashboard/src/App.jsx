@@ -22,7 +22,7 @@ import NewBuy from "./pages/Buy/NewBuy.jsx";
 import BuyList from "./pages/Buy/BuyList.jsx";
 import BuyRefund from "./pages/Buy/BuyRefund.jsx";
 import Category from "./pages/Category/Category.jsx";
-import ProductDetail from "./pages/Products/ProductDetail.jsx";
+// import ProductDetail from "./pages/Products/ProductDetail.jsx";
 import AddProduct from "./pages/Products/AddProduct.jsx";
 import Products from "./pages/Products/Products.jsx";
 import EditProduct from "./pages/Products/EditProduct.jsx";
@@ -36,6 +36,8 @@ import ExpenseCategoryList from "./pages/Expense/ExpenseCategoryList.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import Addstocks from "./pages/Stocks/Addstocks.jsx";
 import UserManagement from "./pages/UserManagement/UserManagement.jsx";
+import Footer from "./components/Footer/Footer.jsx";
+// import RoleManagement from './pages/UserManagement/RoleManagement.jsx'
 
 
 function App() {
@@ -54,6 +56,9 @@ function App() {
 
   return (
     <BrowserRouter>
+      <div className="app-wrapper">
+
+  
       <div className="main d-flex">
         {!isHideSidebarAndHeader && isLoggedIn && <Header />}
         {!isHideSidebarAndHeader && isLoggedIn && (
@@ -87,12 +92,15 @@ function App() {
                 <Route path="/addstocks" element={<Addstocks />} />
                 <Route path="/product_list" element={<ProductList />} />
                 <Route path="/edit-product/:productId" element={<EditProduct />} />
-                <Route path="/products_view" element={<ProductDetail />} />
+                {/* <Route path="/products_view" element={<ProductDetail />} /> */}
                 <Route path="/products_upload" element={<AddProduct />} />
                 <Route path="/productlist" element={<Products />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/staff" element={<Staff />} />
                 <Route path="/user_management" element={<UserManagement />} />
+                {/* <Route path="/role_management" element={<RoleManagement />} /> */}
+                
+
               </>
             ) : (
               <>
@@ -129,6 +137,8 @@ function App() {
           </Routes>
         </div>
       </div>
+<Footer/>
+    </div>
     </BrowserRouter>
   );
 }

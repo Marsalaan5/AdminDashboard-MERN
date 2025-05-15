@@ -1,5 +1,7 @@
+
+
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');  // Import the User model for MongoDB
+const User = require('../models/User'); 
 
 // Middleware to authenticate the token
 const authenticateToken = async (req, res, next) => {

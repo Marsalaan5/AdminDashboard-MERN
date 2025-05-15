@@ -15,19 +15,16 @@
 //   const navigate = useNavigate();
 //   const { setIsHideSidebarAndHeader, login } = useContext(MyContext);
 
-
-
 //   useEffect(() => {
-//     setIsHideSidebarAndHeader(true); 
+//     setIsHideSidebarAndHeader(true);
 //     return () => setIsHideSidebarAndHeader(false);
 //   }, [setIsHideSidebarAndHeader]);
-  
 
 //   useEffect(() => {
 //     const token = localStorage.getItem("token");
 //     const currentPath = window.location.pathname;
-//     if (token && currentPath !== "/") {
-//       navigate("/");
+//     if (token && currentPath !== "/dashboard") {
+//       navigate("/dashboard");
 //     }
 //   }, [navigate]);
 
@@ -47,7 +44,7 @@
 
 //       login(response.data.token, response.data.result);
 
-//       navigate("/");
+//       navigate("/dashboard");
 //     } catch (error) {
 //       setErrorMessage(
 //         error?.response?.data?.message ||
@@ -57,7 +54,7 @@
 //       setIsLoading(false);
 //     }
 //   };
-  
+
 //   return (
 //     <div
 //       className="loginWrapper"
@@ -87,7 +84,7 @@
 //       >
 //         <div style={{ width: "100%" }}>
 //           <div className="text-center">
-//             <Link to="/" className="logoLogin">
+//             <Link to="/" className="logoLogin" >
 //               <img src={logo} alt="Logo" />
 //             </Link>
 //           </div>
@@ -158,6 +155,7 @@
 // export default Login;
 
 
+
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
@@ -189,6 +187,12 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!email || !password) {
+      setErrorMessage("Please enter both email and password.");
+      return;
+    }
+
     setIsLoading(true);
     setErrorMessage("");
 
@@ -212,6 +216,14 @@ function Login() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Clear error message when the user starts typing
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "email") setEmail(value);
+    if (name === "password") setPassword(value);
+    if (errorMessage) setErrorMessage(""); // Clear error on input change
   };
 
   return (
@@ -243,7 +255,7 @@ function Login() {
       >
         <div style={{ width: "100%" }}>
           <div className="text-center">
-            <Link to="/" className="logoLogin" >
+            <Link to="/" className="logoLogin">
               <img src={logo} alt="Logo" />
             </Link>
           </div>
@@ -267,8 +279,9 @@ function Login() {
                 autoComplete="off"
                 name="email"
                 className="form-control rounded-0"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleInputChange}
                 required
+                value={email}
               />
             </div>
             <div className="mb-3">
@@ -281,8 +294,9 @@ function Login() {
                 placeholder="Enter Your Password"
                 name="password"
                 className="form-control rounded-0"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleInputChange}
                 required
+                value={password}
               />
             </div>
 

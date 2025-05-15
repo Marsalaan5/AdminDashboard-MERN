@@ -50,7 +50,7 @@ function NewExpense() {
     const expenseData = {
       expense_date: expenseDate,
       expense_for: expenseFor,
-      expense_catagory: expenseCategory,
+      expense_category: expenseCategory,
       expense_amount: expenseAmount,
       exp_descrip: expenseDescription,
     };
@@ -79,6 +79,24 @@ function NewExpense() {
     <div className="right-contentDashboard w-98">
       <section >
         <div className="container-fluid">
+             <div className="content-header">
+          <div className="container-fluid">
+            <div className="row mb-2">
+              <div className="col-sm-6">
+                <h1 className="m-0 text-dark">New Expense</h1>
+                <div className="col-sm-6">
+                  <ol className="breadcrumb float-sm-right">
+                    <li className="breadcrumb-item">
+                      <a href="/">Home</a>
+                    </li>
+                    <li className="breadcrumb-item active">Add-New-Expense</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+         </div>
           <div className="row mt-4">
             <div className="col-md-8 offset-md-2 col-lg-8 offset-lg-2 mt-3">
               <div className="card">
@@ -134,10 +152,10 @@ function NewExpense() {
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="expense_catagory">Expense Category</label>
+                          <label htmlFor="expense_category">Expense Category</label>
                           <select
-                            name="expense_catagory"
-                            id="expense_catagory"
+                            name="expense_category"
+                            id="expense_category"
                             className="form-control"
                             value={expenseCategory}
                             onChange={(e) => setExpenseCategory(e.target.value)}
@@ -192,7 +210,7 @@ function NewExpense() {
               </div>
             </div>
           </div>
-        </div>
+       
       </section>
     </div>
   );

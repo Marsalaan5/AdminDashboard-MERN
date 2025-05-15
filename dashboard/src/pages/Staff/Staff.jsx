@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Card, Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { Add } from '@mui/icons-material';
 // import User from '../../../../backend/models/User';
 import { MyContext } from '../../context/Context';
 
@@ -141,14 +142,14 @@ function Staff() {
             <h2 className="main-content-title fs-24 mt-4 text-dark">Staff</h2>
             <nav aria-label="breadcrumb" className="my-0">
               <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item"><a href="#" role="button">Staff</a></li>
+                <li className="breadcrumb-item"><a href="/" role="button">Home</a></li>
                 <li className="breadcrumb-item active" aria-current="page">Staff-Details</li>
               </ol>
             </nav>
           </div>
           <div className="header_svg d-flex">
             <div style={{ marginBottom: '20px', textAlign: 'right' }}>
-              <Button variant="contained" color="primary" onClick={handleAddstaff}>
+              <Button variant="contained" color="primary"  startIcon={<Add />} onClick={handleAddstaff}>
                 Add staff
               </Button>
             </div>

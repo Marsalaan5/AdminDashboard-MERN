@@ -31,7 +31,7 @@ router.get("/:id", async (req, res) => {
 
 
 
-router.post("/",isAdmin,async (req, res) => {
+router.post("/",async (req, res) => {
   try {
     const { stock_name, brand, s_category, s_source, sku, alert_quantity, buy_price, selling_price } = req.body;
 

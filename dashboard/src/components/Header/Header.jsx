@@ -271,6 +271,15 @@ function Header() {
               <MdEmail />
             </Button>
 
+            {/* <Button
+  className="rounded-circle"
+  aria-label="Email"
+  component="a"
+  href="mailto:support@yourcompany.com?subject=Support Inquiry"
+>
+  <MdEmail />
+</Button> */}
+
             {/* Notifications Dropdown */}
             <div className="dropdown-wrapper-notification position-relative">
               <Button
@@ -321,7 +330,8 @@ function Header() {
                   />
                   <span>
                     {user?.name
-                      ?.split(" ")
+                    .toLowerCase()
+                    .split(" ")
                       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                       .join(" ") || user?.email || "User"}
                         {user?.role ? ` (${user.role})` : ""}

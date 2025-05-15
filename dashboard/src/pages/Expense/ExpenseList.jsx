@@ -143,8 +143,35 @@ function ExpenseList() {
   return (
     <div className="right-contentDashboard w-98">
       <section>
+         <div className="container-fluid">
+      <div className="content-header">
+        <div className="row mb-3">
+          <div className="col-sm-6">
+            <h1 className="m-0 text-dark">Expense Categories</h1>
+             <ol className="breadcrumb float-sm-right mr-3 mb-0">
+              <li className="breadcrumb-item">
+                <a href="#">Expense</a>
+              </li>
+              <li className="breadcrumb-item active">Expense-Category</li>
+            </ol>
+          </div>
+          <div className="col-sm-6 d-flex justify-content-end align-items-center">
+             {user?.role === "admin" && (
+                  <>
+                 <button
+  className="btn btn-sm btn-primary"
+  onClick={() => navigate("/newexpense")}
+>
+  Add Expense
+</button>
+  </>
+               )}
+          </div>
+        </div>
+      </div>
+      </div>
+          {/* <div className="container-fluid">
         <div className="content-header">
-          <div className="container-fluid">
             <div className="row mb-2">
               <div className="col-sm-6">
                 <h1 className="m-0 text-dark">Expense Categories</h1>
@@ -155,11 +182,22 @@ function ExpenseList() {
                     </li>
                     <li className="breadcrumb-item active">Expense List</li>
                   </ol>
-                </div>
-              </div>
+                {user?.role === "admin" && (
+                  <>
+                 <button
+  className="btn btn-sm btn-primary"
+  onClick={() => navigate("/newexpense")}
+>
+  Add Expense
+</button>
+  </>
+               )}
+               </div>
+               </div>
+
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="row">
           <div className="col-12 col-sm-6 col-md-4">
@@ -174,23 +212,7 @@ function ExpenseList() {
         <div className="container-fluid">
           <div className="card">
             <div className="card-body">
-              <div className="card-header">
-                <h3 className="card-title">
-                  <b>All Expense Categories</b>
-                </h3>
-               {user?.role === "admin" && (
-                <>
-                 <button
-  className="btn btn-sm btn-warning"
-  onClick={() => navigate("/newexpense")}
->
-  Add Expense
-</button>
-  </>
-               )}
-
-              </div>
-
+  
               <div className="card-body">
                 <div className="table-responsive">
                   <table id="expenseList" className="display dataTable">

@@ -44,7 +44,7 @@ function Sidebar() {
       icon: <FaProductHunt />,
       submenu: [
         { label: "Product List", route: "/productlist" },
-        { label: "Product View", route: "/products_view" },
+        // { label: "Product View", route: "/products_view" },
         { label: "Product Upload", route: "/products_upload" },
       ],
     },
@@ -54,7 +54,7 @@ function Sidebar() {
       icon: <AiOutlineStock />,
       submenu: [
         { label: "Add Stock", route: "/addstocks" },
-        { label: "Product List", route: "/product_list" },
+        { label: "Stock List", route: "/product_list" },
       ],
     },
     {
@@ -108,6 +108,7 @@ function Sidebar() {
       submenu: [
         // { label: "Manage Role", route: "/manage_role" },
         { label: "Manage User", route: "/user_management" },
+        { label: "Manage Role", route: "/role_management" },
       ],
     },
   ];

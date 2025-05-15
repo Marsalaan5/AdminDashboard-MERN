@@ -20,6 +20,30 @@ body {
   background: transparent !important ;
 }
 
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+.main {
+  flex: 1;
+}
+
+/* footer {
+  background-color: #f8f9fa;
+  padding: 10px;
+  text-align: center;
+} */
+
+
 .btn {
   color: #0858f7;
 }

@@ -1,9 +1,11 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-// const bcrypt = require('bcrypt');  // ✅ required for password hashing
-const { authenticateToken,isAdmin } = require('../middleware/auth');
+const bcrypt = require('bcrypt'); // 
 const User = require('../models/User');
 const router = express.Router();
+
+const { authenticateToken, isAdmin } = require('../middleware/auth');
+
 
 // Get all users
 router.get("/", authenticateToken, async (req, res) => {
@@ -17,7 +19,7 @@ router.get("/", authenticateToken, async (req, res) => {
 });
 
 // Update user
-router.put("/:id", authenticateToken,isAdmin, async (req, res) => {
+router.put("/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   const { name, email, password, role, image, status } = req.body;
 
@@ -28,12 +30,15 @@ router.put("/:id", authenticateToken,isAdmin, async (req, res) => {
     user.name = name || user.name;
     user.email = email || user.email;
     user.role = role || user.role;
+    // user.permissions = permissions || user.permissions;
     user.image = image || user.image;
     user.status = status || user.status;
 
-    if (password) {
-      user.password = password; // Will be hashed by the pre-save hook in the model
+    if (password  && password.trim() !== '') {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt); 
     }
+    
 
     await user.save();
     res.status(200).json({ message: "User updated successfully" });
